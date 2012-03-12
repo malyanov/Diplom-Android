@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+      package="com.diplom.activities"
+      android:versionCode="1"
+      android:versionName="1.0">
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+<uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
+    <application android:icon="@drawable/icon" android:label="@string/app_name">
+        <activity android:name="Diplom"
+                  android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    
+<activity android:name="InfoTable" android:launchMode="standard" android:label="Таблица котировок"></activity>
+<activity android:name="Alarm" android:launchMode="standard" android:label="Предупреждения"></activity>
+<activity android:name="ChartSettings" android:launchMode="standard" android:label="Настройки графика"></activity>
+<activity android:name=".SettingsActivity" android:launchMode="standard" android:label="Настройки"></activity>
+<activity android:name="AddQuotation" android:launchMode="standard" android:label="Добавление котировки"></activity>
+<activity android:name=".FullScreenChart" android:configChanges="orientation" android:launchMode="standard" 
+		  android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" android:label="Полноэкранный график"
+		  android:screenOrientation="landscape"></activity>
+</application>
+</manifest> 

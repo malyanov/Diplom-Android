@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/TableRow">
+        <TextView android:id="@+id/RowExchange" android:layout_column="1" android:text="ММВБ" android:padding="3dip" android:layout_marginRight="1px" android:background="#000"/>        
+        <TextView android:id="@+id/RowInstrument" android:text="GAZP" android:background="#000" android:padding="3dip" android:layout_marginRight="1px"/>        
+        <TextView android:id="@+id/RowValue" android:text="345.32" android:gravity="right" android:background="#000" android:padding="3dip" android:layout_marginRight="1px"/>
+        <TextView android:id="@+id/RowChange" android:text="-0.2" android:textColor="#000" android:background="#f00" android:gravity="right" android:padding="3dip" android:layout_marginRight="1px"/>                
+        <ImageView android:id="@+id/RowDirection" android:src="@drawable/down" android:background="#000" android:paddingLeft="3dp" android:layout_height="25dp"/>
+</TableRow>

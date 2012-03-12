@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/curves_mode"          
+          android:title="Кривая" />
+    <item android:id="@+id/candles_mode"          
+          android:title="Свечи" />
+    <item android:id="@+id/bars_mode"          
+          android:title="Бары" />
+</menu>
