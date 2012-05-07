@@ -18,7 +18,7 @@ import android.view.ScaleGestureDetector;
 import android.view.SurfaceView;
 import android.view.View;
 
-import com.diplom.activities.Diplom;
+import com.diplom.activities.MainActivity;
 import com.diplom.basics.Instrument;
 import com.diplom.basics.Quotation;
 import com.diplom.basics.Quotation.QuotationType;
@@ -183,8 +183,7 @@ public class Chart extends SurfaceView
             invalidate();
         }
     }  
-    private OnTouchListener onTouch=new OnTouchListener() {		
-		@Override
+    private OnTouchListener onTouch=new OnTouchListener() {
 		public boolean onTouch(View v, MotionEvent event) {
 			mScaleDetector.onTouchEvent(event);
 			if(event.getAction()==MotionEvent.ACTION_DOWN)

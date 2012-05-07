@@ -61,7 +61,7 @@ public class MICEX_Loader {
 			public void run() {
 				String query="http://www.micex.ru/iss/engines/stock/markets/shares/boards/"+board+"/securities/"+instrumentCode+".xml?"+
 						"iss.meta=off&iss.only=marketdata&marketdata.columns=LAST,TIME";//,SECID,HIGH,LOW,OPEN,LASTCHANGE,CLOSEPRICE,SYSTIME,SEQNUM";
-				Document d=getXmlDocument(HttpClient.SendHttpGet(query));
+				Document d=getXmlDocument(HttpClient.SendHttpGet(query, null));
 				String price=((Element)d.getElementsByTagName("row").item(0)).getAttribute("LAST");
 				String date=((Element)d.getElementsByTagName("row").item(0)).getAttribute("TIME");
 				SimpleDateFormat curFormater = new SimpleDateFormat("HH:mm:ss");
@@ -87,7 +87,7 @@ public class MICEX_Loader {
 		}
 		String query="http://www.micex.ru/iss/engines/stock/markets/shares/boards/"+board+"/securities/"+instrumentCode+".xml?"+
 				"iss.meta=off&iss.only=marketdata&marketdata.columns=LAST";//TIME,SECID,HIGH,LOW,OPEN,LASTCHANGE,CLOSEPRICE,SYSTIME,SEQNUM";
-		Document d=getXmlDocument(HttpClient.SendHttpGet(query));
+		Document d=getXmlDocument(HttpClient.SendHttpGet(query, null));
 		String price=((Element)d.getElementsByTagName("row").item(0)).getAttribute("LAST");				
 		return Double.parseDouble(price);				
 	}
@@ -96,7 +96,7 @@ public class MICEX_Loader {
 	{
 		XPathExpression expr=null;
 		Instrument instrument=null;							
-	    Document doc=getXmlDocument(HttpClient.SendHttpGet("http://www.micex.ru/iss/securities/"+code+".xml?iss.meta=off&iss.only=boards&boards.columns=secid,boardid,title"));			
+	    Document doc=getXmlDocument(HttpClient.SendHttpGet("http://www.micex.ru/iss/securities/"+code+".xml?iss.meta=off&iss.only=boards&boards.columns=secid,boardid,title", null));			
 		try {						
 		    	XPath xpath = XPathFactory.newInstance().newXPath();
 		    	expr = xpath.compile("//row");
@@ -116,7 +116,7 @@ public class MICEX_Loader {
 	           return EmitentIds[i];
 	  }
 	  return 0;
-	}	
+	}
 	private Document getXmlDocument(String str)
 	{				
 		StringReader sr = new StringReader(str);
@@ -126,13 +126,9 @@ public class MICEX_Loader {
 		try {
 			builder = factory.newDocumentBuilder();
 			return builder.parse(is);
-		} catch (ParserConfigurationException e) {			
-			e.printStackTrace();
-		} catch (SAXException e) {			
-			e.printStackTrace();
-		} catch (IOException e) {			
-			e.printStackTrace();
-		}		
+		} catch (Exception ex) {			
+			ex.printStackTrace();
+		}
 		return null;		
 	}	
 }

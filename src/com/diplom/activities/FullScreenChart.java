@@ -1,11 +1,11 @@
 package com.diplom.activities;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -86,9 +86,10 @@ public class FullScreenChart extends Activity {
     {
     	int monthsNum=1;
     	if(Settings.bidType==QuotationType.Day_Bid)
-        	monthsNum=3;
-        Date now=new Date();
-        Date start=new Date(now.getYear(), now.getMonth()-monthsNum, now.getDate());
+        	monthsNum=3;        
+        Calendar calendar=Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -monthsNum);
+        Date start=calendar.getTime();
         Handler dataHandler=new Handler(){
         	@Override
         	public void handleMessage(Message msg) {        		        	
@@ -96,9 +97,9 @@ public class FullScreenChart extends Activity {
         		quots.add((Quotation)msg.obj);
         		chart.init(quots);
         		if(curInstrument!=null)
-        			Diplom.querer.removeTask(curInstrument);
+        			MainActivity.querer.removeTask(curInstrument);
         		curInstrument=new Instrument(Settings.exchangeId, Settings.boardCode, Settings.instrumentCode, "", 0);
-        		Diplom.querer.addTask(curInstrument, updLastQuotHandler);
+        		MainActivity.querer.addTask(curInstrument, updLastQuotHandler);
         		if(progressDlg!=null)
         			progressDlg.hide();
         	}

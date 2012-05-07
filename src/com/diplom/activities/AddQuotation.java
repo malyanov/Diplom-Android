@@ -15,36 +15,31 @@ import com.diplom.basics.Instrument;
 import com.diplom.loaders.MICEX_Loader;
 import com.diplom.loaders.RTS_Loader;
 
-public class AddQuotation extends Activity {
+public class AddQuotation extends Activity{
 	private Spinner instrspinner;
 	
 	private int exchangeId=Instrument.MICEX;
 	private String instrumentCode="GAZP";	
 	
-	private void loadInstruments()
-	{
-		if(exchangeId==Instrument.MICEX)
-		{
+	private void loadInstruments(){
+		if(exchangeId==Instrument.MICEX){
 			ArrayAdapter<CharSequence> instradapter = new ArrayAdapter<CharSequence>(getApplicationContext(), 
 					android.R.layout.simple_spinner_item, MICEX_Loader.EmitentCodes);
 	        instradapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 	        instrspinner.setAdapter(instradapter);
 		}
-		else
-		{
+		else{
 			ArrayAdapter<CharSequence> instradapter = new ArrayAdapter<CharSequence>(getApplicationContext(), 
 					android.R.layout.simple_spinner_item, RTS_Loader.EmitentCodes);
 	        instradapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 	        instrspinner.setAdapter(instradapter);
 		}
-	}	
-	@Override
+	}
 	protected void onCreate(Bundle savedInstanceState) {		
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.add_quote_activity);
 		Spinner exchspinner = (Spinner) findViewById(R.id.SpExchange);
-		exchspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-			@Override
+		exchspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {			
 			public void onItemSelected(AdapterView<?> spinner, View text,	int index, long lindex) {
 				String value=(String)((TextView)text).getText();
 				if(value.equals("пря"))
@@ -52,31 +47,26 @@ public class AddQuotation extends Activity {
 				else if(value.equals("ллба"))
 					exchangeId=Instrument.MICEX;
 				loadInstruments();
-			}
-			@Override
+			}			
 			public void onNothingSelected(AdapterView<?> arg0) {				
 			}
 		});
         ArrayAdapter<CharSequence> exchadapter = ArrayAdapter.createFromResource(
                 this, R.array.exchange_items, android.R.layout.simple_spinner_item);
         exchadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        exchspinner.setAdapter(exchadapter);
-        
+        exchspinner.setAdapter(exchadapter);        
         instrspinner = (Spinner) findViewById(R.id.SpInstrument);
         instrspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-			@Override
+			
 			public void onItemSelected(AdapterView<?> spinner, View text,	int index, long lindex) {
 				String value=(String)((TextView)text).getText();
 				instrumentCode=value;
-			}
-			@Override
+			}			
 			public void onNothingSelected(AdapterView<?> arg0) {				
 			}
-		});       
-        
+		});
         ImageButton addBtn=(ImageButton)findViewById(R.id.AddQuote);
-        addBtn.setOnTouchListener(new ImageButton.OnTouchListener() {			
-			@Override
+        addBtn.setOnTouchListener(new ImageButton.OnTouchListener() {
 			public boolean onTouch(View v, MotionEvent event) {
 				Intent data=new Intent();
 				Bundle b = new Bundle();
@@ -89,8 +79,7 @@ public class AddQuotation extends Activity {
 			}
 		});
         ImageButton cancelBtn=(ImageButton)findViewById(R.id.CancelQuote);
-        cancelBtn.setOnTouchListener(new ImageButton.OnTouchListener() {			
-			@Override
+        cancelBtn.setOnTouchListener(new ImageButton.OnTouchListener() {
 			public boolean onTouch(View v, MotionEvent event) {
 				setResult(RESULT_CANCELED);
 				finish();

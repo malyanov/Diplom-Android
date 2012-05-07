@@ -1,22 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="hello">Hello World, diplom!</string>
-    <string name="app_name">diplom</string>
+<resources>    
+    <string name="app_name">Информер РТС и ММВБ</string>
     <string name="exchange">Выберите биржу </string>
     <string-array name="exchange_items">
         <item>ММВБ</item>
         <item>РТС</item>        
     </string-array>
-    <string name="instrument">Выберите инструмент</string>
-    <string-array name="instrument_items">
-        <item>GAZP</item>
-        <item>GMKN</item>        
-        <item>LKOH</item>
-        <item>RSTR</item>
-        <item>SBERP</item>
-        <item>SBER</item>
-        <item>OGKA</item>
-    </string-array>
+    <string name="instrument">Выберите инструмент</string>    
     <string name="analyse">Выберите способ анализа</string>
     <string-array name="analyse_items">
         <item>Stochastic</item>

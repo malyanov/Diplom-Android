@@ -52,7 +52,7 @@ public class RTS_Loader {
 			public void run() {
 				try {
 					String query=serverAddress+"?code="+instrumentCode;
-					Document d=getXmlDocument(HttpClient.SendHttpGet(query));
+					Document d=getXmlDocument(HttpClient.SendHttpGet(query, null));
 					String price=((Element)d.getElementsByTagName("issue").item(0)).getAttribute("trade_price");
 					String date=((Element)d.getElementsByTagName("issue").item(0)).getAttribute("trade_moment");					
 					SimpleDateFormat curFormater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -78,7 +78,7 @@ public class RTS_Loader {
 	{		
 		instrumentCode=instrumentCode.replace("RTS.", "");
 		String query=serverAddress+"?code="+instrumentCode;
-		Document d=getXmlDocument(HttpClient.SendHttpGet(query));
+		Document d=getXmlDocument(HttpClient.SendHttpGet(query, null));
 		String price=((Element)d.getElementsByTagName("issue").item(0)).getAttribute("trade_price");
 		if(price.equals(""))
 			price=((Element)d.getElementsByTagName("issue").item(0)).getAttribute("best_ask");

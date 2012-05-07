@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.zip.GZIPInputStream;
@@ -27,7 +28,7 @@ import android.util.Log;
 
 public class HttpClient {		
 	
-	public static String SendHttpGet(String URL) {		
+	public static String SendHttpGet(String URL, String encoding) {		
 		String resultString="";
 		 try {	  
 		  DefaultHttpClient httpclient = new DefaultHttpClient();
@@ -40,10 +41,11 @@ public class HttpClient {
 		  if (entity != null) 
 		  {		   
 			   InputStream instream = entity.getContent();
+			   Header enc=entity.getContentEncoding();
 			   Header contentEncoding = response.getFirstHeader("Content-Encoding");
 			   if (contentEncoding != null && contentEncoding.getValue().equalsIgnoreCase("gzip")) 
 			    instream = new GZIPInputStream(instream);
-			   resultString= convertStreamToString(instream);
+			   resultString= convertStreamToString(instream, encoding);
 			   instream.close();			   
 		  }	   	   	
 		 }
@@ -57,7 +59,7 @@ public class HttpClient {
         Thread thread = new Thread() {
             @Override
             public void run() {                
-            	String result=SendHttpGet(URL);                
+            	String result=SendHttpGet(URL, null);                
                 Message message = handler.obtainMessage(1, result);
                 handler.sendMessage(message);
             }
@@ -86,9 +88,13 @@ public class HttpClient {
         }
 
 	}			
-	private static String convertStreamToString(InputStream is) 
-	{	 
-	 BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+	private static String convertStreamToString(InputStream is, String encoding) throws UnsupportedEncodingException 
+	{
+	 InputStreamReader isr=null;
+	 if(encoding!=null)
+		 isr=new InputStreamReader(is, encoding);
+	 else  isr=new InputStreamReader(is);
+	 BufferedReader reader = new BufferedReader(isr);
 	 StringBuilder sb = new StringBuilder();	
 	 String line = null;
 	 try {

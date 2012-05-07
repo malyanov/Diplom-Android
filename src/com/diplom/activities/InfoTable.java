@@ -119,7 +119,7 @@ public class InfoTable extends Activity {
 			int exchangeId=data.getIntExtra("exchangeId", 0);
 			
 			addTableRow(exchangeId, instrumentCode, 0, 0);
-			Diplom.querer.addTask(new Instrument(exchangeId, "", instrumentCode, "", 0), updateHandler);
+			MainActivity.querer.addTask(new Instrument(exchangeId, "", instrumentCode, "", 0), updateHandler);
 		}
 	}	
 	public void addTableRow(int exchangeId, String instrumentCode, double value, double change)
@@ -154,12 +154,11 @@ public class InfoTable extends Activity {
 		else direction.setImageResource(R.drawable.up);
 		
 		tr.setTag(new Instrument(exchangeId, "", instrumentCode, "", 0));
-		tr.setOnClickListener(new OnClickListener() {			
-			@Override
+		tr.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				table.removeView(v);				
 				rows.remove(v);				
-				Diplom.querer.removeTask((Instrument)v.getTag());
+				MainActivity.querer.removeTask((Instrument)v.getTag());
 				table.invalidate();
 			}
 		});		

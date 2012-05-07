@@ -19,19 +19,19 @@
   </LinearLayout>
   <TextView android:id="@+id/change" android:text="-1.2%" android:textColor="#f00" android:paddingTop="10dp" android:paddingLeft="20dp"  android:layout_width="wrap_content" android:layout_height="wrap_content"/>
   </LinearLayout>
-  <LinearLayout android:layout_width="fill_parent" android:gravity="center" android:orientation="vertical" android:layout_height="317dp">
+  <LinearLayout android:layout_width="fill_parent" android:gravity="center" android:orientation="vertical" android:layout_height="369dp">
   <TextView android:text="Предупредить меня, когда GAZP достигнет уровня:" android:textStyle="bold" android:gravity="center_horizontal" android:layout_width="match_parent" android:layout_height="wrap_content"/>
   <LinearLayout android:orientation="vertical" android:gravity="center_horizontal" android:layout_width="match_parent" android:layout_height="wrap_content">
    <EditText android:text="367.30" android:layout_margin="15dp" android:id="@+id/AlarmValue" android:layout_width="100dp" android:gravity="center" android:layout_height="wrap_content"></EditText>
   <LinearLayout android:orientation="horizontal" android:gravity="center" android:layout_width="match_parent" android:layout_height="wrap_content">   
-   <ImageButton android:src="@drawable/plus" android:background="#0000" android:textSize="10dp"   android:layout_width="46px" android:layout_height="46px"/>  
+   <ImageButton android:src="@drawable/plus" android:background="#0000" android:textSize="10dp"   android:layout_width="46dp" android:layout_height="46dp"/>  
    <SeekBar android:layout_height="wrap_content" android:id="@+id/SeekBar01" android:layout_margin="5dp" android:layout_width="220dp"></SeekBar>
-   <ImageButton android:src="@drawable/minus" android:background="#0000" android:textSize="10dp"   android:layout_width="46px" android:layout_height="46px"/>  
+   <ImageButton android:src="@drawable/minus" android:background="#0000" android:textSize="10dp"   android:layout_width="46dp" android:layout_height="46dp"/>  
   </LinearLayout>   
  </LinearLayout>
  </LinearLayout>
  <LinearLayout android:orientation="horizontal" android:gravity="center_horizontal" android:background="@drawable/bottombar"  android:layout_marginTop="10dp" android:paddingTop="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
-  <ImageButton android:id="@+id/SetAlarm" android:src="@drawable/ok" android:layout_marginRight="10dp" android:background="@drawable/button" android:textSize="10dp"   android:layout_width="46px" android:layout_height="46px"/>    
-  <ImageButton android:id="@+id/CancelAlarm" android:src="@drawable/delete_icon" android:layout_marginRight="10dp" android:background="@drawable/button" android:textSize="10dp"   android:layout_width="46px" android:layout_height="46px"/>
+  <ImageButton android:id="@+id/SetAlarm" android:src="@drawable/ok" android:layout_marginRight="10dp" android:background="@drawable/button" android:textSize="10dp"   android:layout_width="46dp" android:layout_height="46dp"/>    
+  <ImageButton android:id="@+id/CancelAlarm" android:src="@drawable/delete_icon" android:layout_marginRight="10dp" android:background="@drawable/button" android:textSize="10dp"   android:layout_width="46dp" android:layout_height="46dp"/>
  </LinearLayout> 
 </LinearLayout>

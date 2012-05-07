@@ -50,11 +50,10 @@ public class ChartSettings extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {		
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.chartsettings);
+		setContentView(R.layout.chart_settings);
 		
 		Spinner exchspinner = (Spinner) findViewById(R.id.SpinnerExchange);
 		exchspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-			@Override
 			public void onItemSelected(AdapterView<?> spinner, View text,	int index, long lindex) {
 				String value=(String)((TextView)text).getText();
 				if(value.equals("пря"))
@@ -63,7 +62,6 @@ public class ChartSettings extends Activity {
 					exchangeId=Instrument.MICEX;
 				loadInstruments();
 			}
-			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {				
 			}
 		});
@@ -74,19 +72,16 @@ public class ChartSettings extends Activity {
         
         instrspinner = (Spinner) findViewById(R.id.SpinnerInstrument);
         instrspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-			@Override
 			public void onItemSelected(AdapterView<?> spinner, View text,	int index, long lindex) {
 				String value=(String)((TextView)text).getText();
 				instrumentCode=value;
 			}
-			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {				
 			}
 		});        
         
         Spinner analysespinner = (Spinner) findViewById(R.id.AnalyseSpinner);
         analysespinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-			@Override
 			public void onItemSelected(AdapterView<?> spinner, View text, int index, long lindex) {				
 				String value=(String)((TextView)text).getText();
 				if(value.equals("RSI"))
@@ -94,7 +89,6 @@ public class ChartSettings extends Activity {
 				else if(value.equals("Stochastic"))
 					analyseMode=AnalyseChart.Mode.Stochastic;
 			}
-			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {				
 			}
 		});
@@ -105,7 +99,6 @@ public class ChartSettings extends Activity {
         
         RadioGroup graphType=(RadioGroup)findViewById(R.id.GraphType);        
         graphType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {			
-			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
 				RadioButton rb=(RadioButton)group.findViewById(checkedId);
 				String type=(String) rb.getText();
@@ -119,7 +112,6 @@ public class ChartSettings extends Activity {
 		});
         RadioGroup bidTypeGroup=(RadioGroup)findViewById(R.id.BidType);        
         bidTypeGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {			
-			@Override
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
 				RadioButton rb=(RadioButton)group.findViewById(checkedId);
 				String type=(String) rb.getText();
@@ -131,7 +123,6 @@ public class ChartSettings extends Activity {
 		});
         ImageButton saveBtn=(ImageButton)findViewById(R.id.SaveSettings);
         saveBtn.setOnTouchListener(new ImageButton.OnTouchListener() {			
-			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				Settings.instrumentCode=instrumentCode;
 				Settings.bidType=bidType;
@@ -145,7 +136,6 @@ public class ChartSettings extends Activity {
 		});
         ImageButton cancelBtn=(ImageButton)findViewById(R.id.CancelSettings);
         cancelBtn.setOnTouchListener(new ImageButton.OnTouchListener() {			
-			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				setResult(RESULT_CANCELED);
 				stopActivity();

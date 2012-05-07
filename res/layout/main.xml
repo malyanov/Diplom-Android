@@ -17,23 +17,23 @@
  <LinearLayout android:id="@+id/graphContainer" 			    
 			   android:paddingBottom="5dp"
 			   android:layout_width="match_parent" 
-			   android:layout_height="200dp" 
+			   android:layout_height="220dp" 
 			   android:drawingCacheQuality="high" 
 			   android:focusableInTouchMode="true">
  </LinearLayout>
  <LinearLayout android:orientation="horizontal" android:gravity="center_horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content"> 
- 	<DigitalClock android:id="@+id/Clock" android:background="@drawable/time" android:gravity="center" android:layout_width="100px" android:layout_height="25px" android:typeface="monospace"></DigitalClock>
+ 	<DigitalClock android:id="@+id/Clock" android:background="@drawable/time" android:gravity="center" android:layout_width="100dp" android:layout_height="25dp" android:typeface="monospace"></DigitalClock>
  	<Button android:id="@+id/FullScreenMode" android:layout_width="wrap_content" android:layout_height="30dp"/>
  </LinearLayout>
  <LinearLayout android:id="@+id/analizeGraphContainer"  
 			   android:paddingTop="5dp"
 			   android:layout_width="wrap_content"
-			   android:layout_height="90dp">
+			   android:layout_height="120dp">
  </LinearLayout>
- <LinearLayout android:orientation="horizontal" android:gravity="center_horizontal" android:background="@drawable/bottombar"  android:layout_marginTop="10dp" android:paddingTop="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
-  <ImageButton android:id="@+id/ChartButton" android:src="@drawable/chart" android:layout_marginRight="10dp" android:background="@drawable/button" android:textSize="10dp"   android:layout_width="46px" android:layout_height="46px"/>
-  <ImageButton android:id="@+id/TableButton" android:src="@drawable/table" android:layout_marginRight="10dp" android:background="@drawable/button" android:textSize="10dp"   android:layout_width="46px" android:layout_height="46px"/>
-  <ImageButton android:id="@+id/AlarmButton" android:src="@drawable/alarm" android:layout_marginRight="10dp" android:background="@drawable/button" android:textSize="10dp"   android:layout_width="46px" android:layout_height="46px"/>  
-  <ImageButton android:id="@+id/SettingsButton" android:src="@drawable/settings" android:background="@drawable/button" android:textSize="10dp"   android:layout_width="46px" android:layout_height="46px"/>
+ <LinearLayout android:orientation="horizontal" android:gravity="center_horizontal" android:background="@drawable/bottombar"  android:layout_marginTop="10dp" android:paddingTop="10dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+  <ImageButton android:id="@+id/ChartButton" android:src="@drawable/chart" android:layout_marginRight="10dp" android:background="@drawable/button" android:textSize="10dp"   android:layout_width="46dp" android:layout_height="46dp"/>
+  <ImageButton android:id="@+id/TableButton" android:src="@drawable/table" android:layout_marginRight="10dp" android:background="@drawable/button" android:textSize="10dp"   android:layout_width="46dp" android:layout_height="46dp"/>
+  <ImageButton android:id="@+id/AlarmButton" android:src="@drawable/alarm" android:layout_marginRight="10dp" android:background="@drawable/button" android:textSize="10dp"   android:layout_width="46dp" android:layout_height="46dp"/>  
+  <ImageButton android:id="@+id/NewsButton" android:src="@drawable/news" android:background="@drawable/button" android:textSize="10dp"   android:layout_width="46dp" android:layout_height="46dp"/>
  </LinearLayout>
 </LinearLayout>
