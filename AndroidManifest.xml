@@ -16,12 +16,12 @@
             </intent-filter>
         </activity>
     
-<activity android:name="InfoTable" android:launchMode="standard" android:label="Таблица котировок"></activity>
-<activity android:name="Alarm" android:launchMode="standard" android:label="Предупреждения"></activity>
-<activity android:name="ChartSettings" android:launchMode="standard" android:label="Настройки графика"></activity>
+<activity android:name=".TableActivity" android:launchMode="standard" android:label="Таблица котировок"></activity>
+<activity android:name=".AlarmActivity" android:launchMode="standard" android:label="Предупреждения"></activity>
+<activity android:name=".ChartSettingsActivity" android:launchMode="standard" android:label="Настройки графика"></activity>
 <activity android:name="NewsActivity" android:launchMode="standard" android:label="Новости бирж"></activity>
-<activity android:name="AddQuotation" android:launchMode="standard" android:label="Добавление котировки"></activity>
-<activity android:name="FullScreenChart" android:configChanges="orientation" android:launchMode="standard" 
+<activity android:name=".AddQuotActivity" android:launchMode="standard" android:label="Добавление котировки"></activity>
+<activity android:name=".FSChartActivity" android:configChanges="orientation" android:launchMode="standard" 
 		  android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" android:label="Полноэкранный график"
 		  android:screenOrientation="landscape"></activity>
 </application>

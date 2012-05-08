@@ -31,6 +31,7 @@
  </LinearLayout>
  </LinearLayout>
  <LinearLayout android:orientation="horizontal" android:gravity="center_horizontal" android:background="@drawable/bottombar"  android:layout_marginTop="10dp" android:paddingTop="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+  <ImageButton android:id="@+id/AlarmsList" android:src="@drawable/list" android:layout_marginRight="10dp" android:background="@drawable/button" android:textSize="10dp"   android:layout_width="46dp" android:layout_height="46dp"/>   
   <ImageButton android:id="@+id/SetAlarm" android:src="@drawable/ok" android:layout_marginRight="10dp" android:background="@drawable/button" android:textSize="10dp"   android:layout_width="46dp" android:layout_height="46dp"/>    
   <ImageButton android:id="@+id/CancelAlarm" android:src="@drawable/delete_icon" android:layout_marginRight="10dp" android:background="@drawable/button" android:textSize="10dp"   android:layout_width="46dp" android:layout_height="46dp"/>
  </LinearLayout> 

@@ -1,6 +1,13 @@
 package com.diplom.basics;
 
-public class Instrument {
+import java.io.Serializable;
+
+public class Instrument implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public static final int RTS=1, MICEX=2;
 	
 	private String code, board;
@@ -15,22 +22,44 @@ public class Instrument {
 		this.exchangeId=exchangeId;
 		this.value=value;
 	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
 	public String getBoard() {
 		return board;
 	}
+
+	public void setBoard(String board) {
+		this.board = board;
+	}
+
 	public int getExchangeId() {
 		return exchangeId;
 	}
-	public double getValue(){
-		return value;
+
+	public void setExchangeId(int exchangeId) {
+		this.exchangeId = exchangeId;
 	}
-	public void setValue(double value){
-		this.value=value;
-	}
-	public String getCode()	{
-		return code;
-	}
+
 	public String getName() {
 		return name;
 	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public double getValue() {
+		return value;
+	}
+
+	public void setValue(double value) {
+		this.value = value;
+	}	
 }

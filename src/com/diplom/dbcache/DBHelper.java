@@ -13,7 +13,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.diplom.basics.Instrument;
 import com.diplom.basics.Quotation;
 import com.diplom.basics.Quotation.QuotationType;
 import com.diplom.basics.Warning;
@@ -42,7 +41,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	public List<Quotation> getQuotations(int instrumentId, int type, Date start)
 	{
 		SQLiteDatabase db=this.getReadableDatabase();		
-		Cursor cur=db.rawQuery("SELECT * FROM quotations WHERE id_instrument=? AND id_type=? AND quotation_time>datetime("+start.toLocaleString()+")",new String [] {String.valueOf(instrumentId), String.valueOf(type)});
+		Cursor cur=db.rawQuery("SELECT * FROM quotations WHERE id_instrument=? AND id_type=? AND quotation_time>datetime("+start.toString()+")",new String [] {String.valueOf(instrumentId), String.valueOf(type)});
 		db.close();
 		List<Quotation> result=new ArrayList<Quotation>();
 		DateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");			

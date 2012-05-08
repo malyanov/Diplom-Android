@@ -1,6 +1,5 @@
 package com.diplom.loaders;
 
-import java.io.IOException;
 import java.io.StringReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -8,7 +7,6 @@ import java.util.Date;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
@@ -19,7 +17,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 import android.os.Handler;
 import android.os.Message;
@@ -39,8 +36,7 @@ public class MICEX_Loader {
 	public MICEX_Loader() {		
 	}
 	//------------------------------------------------Main Functions-------------------------------------------------------------
-	public void getDataForChart(final String instrumentCode, final Date start, final QuotationType bidType, final Handler handler)
-	{
+	public void getDataForChart(final String instrumentCode, final Date start, final QuotationType bidType, final Handler handler){
 		Thread thread=new Thread()
 		{
 			@Override
@@ -54,8 +50,7 @@ public class MICEX_Loader {
 		};
 		thread.start();
 	}
-	public void getCurrentValueAsync(final String board, final String instrumentCode, final QuotationType bidType, final Handler handler)
-	{
+	public void getCurrentValueAsync(final String board, final String instrumentCode, final QuotationType bidType, final Handler handler){
 		Thread thread=new Thread(){
 			@Override
 			public void run() {
@@ -78,8 +73,7 @@ public class MICEX_Loader {
 		};		
 		thread.start();
 	}
-	public double getCurrentValue(String board, String instrumentCode)
-	{		
+	public double getCurrentValue(String board, String instrumentCode){		
 		if(board.equals(""))
 		{
 			Instrument instr=getInstrumentByCode(instrumentCode);
@@ -92,8 +86,7 @@ public class MICEX_Loader {
 		return Double.parseDouble(price);				
 	}
 	//--------------------------------------Help Functions-------------------------------------------------------
-	public Instrument getInstrumentByCode(final String code)
-	{
+	public Instrument getInstrumentByCode(final String code){
 		XPathExpression expr=null;
 		Instrument instrument=null;							
 	    Document doc=getXmlDocument(HttpClient.SendHttpGet("http://www.micex.ru/iss/securities/"+code+".xml?iss.meta=off&iss.only=boards&boards.columns=secid,boardid,title", null));			
@@ -108,8 +101,7 @@ public class MICEX_Loader {
 		}
 		return instrument;
 	}	
-	public Integer getInstrumentId(String instrumentCode)
-	{        
+	public Integer getInstrumentId(String instrumentCode){        
 	  for(int i=0;i<EmitentIds.length;i++)
 	  {
 	     if(EmitentCodes[i].equals(instrumentCode))
@@ -117,8 +109,7 @@ public class MICEX_Loader {
 	  }
 	  return 0;
 	}
-	private Document getXmlDocument(String str)
-	{				
+	private Document getXmlDocument(String str){				
 		StringReader sr = new StringReader(str);
 		InputSource is = new InputSource(sr);
 		DocumentBuilderFactory factory=DocumentBuilderFactory.newInstance();

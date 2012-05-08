@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:background="@drawable/background" android:gravity="center_horizontal"  android:orientation="vertical"    android:layout_width="fill_parent"    android:layout_height="fill_parent">
+ <LinearLayout android:orientation="horizontal" android:id="@+id/TopLayout" android:background="@drawable/topbar" android:layout_marginBottom="5dp" android:paddingTop="5dp" android:layout_width="fill_parent" android:layout_height="wrap_content">
+  <LinearLayout android:orientation="horizontal" android:padding="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+   <ImageView android:id="@+id/trend" android:paddingRight="5dp" android:src="@drawable/down" android:layout_width="30dp" android:layout_height="wrap_content"></ImageView>
+   <TextView android:id="@+id/value" android:text="345.234" android:textColor="#fff" android:padding="3dp" android:background="#FF0000" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>   
+  </LinearLayout>
+  <LinearLayout android:orientation="vertical" android:gravity="center_horizontal" android:layout_width="140dp" android:layout_height="wrap_content"> 
+   <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+    <ImageView android:id="@+id/logo" android:paddingRight="5dp" android:src="@drawable/mmvb" android:layout_width="wrap_content" android:layout_height="wrap_content"></ImageView>
+    <TextView android:text="ММВБ" android:id="@+id/ExchText" android:textStyle="bold" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+   </LinearLayout>
+   <TextView android:text="GAZP-ОАО Газпром" android:textStyle="bold" android:paddingBottom="5dp" android:id="@+id/InstrText" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>  
+  </LinearLayout>
+  <TextView android:id="@+id/change" android:text="-1.2%" android:textColor="#f00" android:paddingTop="10dp" android:paddingLeft="20dp"  android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+ </LinearLayout>
+ <LinearLayout android:orientation="horizontal" android:id="@+id/ContentLayout" android:gravity="center_horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content">  
+ </LinearLayout> 
+ <LinearLayout android:orientation="horizontal" android:id="@+id/BottomLayout" android:gravity="center_horizontal" android:background="@drawable/bottombar"  android:paddingTop="10dp" android:layout_width="fill_parent" android:layout_height="wrap_content">  
+ </LinearLayout>
+</LinearLayout>

@@ -16,7 +16,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -25,8 +24,10 @@ import android.os.Message;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -35,19 +36,18 @@ import com.diplom.basics.News;
 import com.diplom.elements.NewsAdapter;
 import com.diplom.net.HttpClient;
 
-public class NewsActivity extends Activity {
+public class NewsActivity extends BaseActivity{
 	private String rssSource="http://rts.micex.ru/export/news.aspx";
 	private ListView list;
-	private List<News> newsList; 
-	private SimpleDateFormat srcDateFormat=new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.US);	
-	private ProgressDialog progressDlg;
+	private static List<News> newsList=null; 
+	private SimpleDateFormat srcDateFormat=new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.US);
 	private PopupWindow popup=null;
 
 	private void showPopup(News n){
 		if(popup!=null)
 			popup.dismiss();
 		popup=new PopupWindow(this);
-		LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);		
 		View popupView = inflater.inflate(R.layout.news_popup, list, false);
 		TextView dateView = (TextView) popupView.findViewById(R.id.PopupDate);
 		dateView.setOnClickListener(new View.OnClickListener() {			
@@ -66,23 +66,40 @@ public class NewsActivity extends Activity {
 	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);		
-		setContentView(R.layout.news);
-		list=(ListView)findViewById(R.id.NewsList);		
-        
+		super.onCreate(savedInstanceState);
+		LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		inflater.inflate(R.layout.news_content, (ViewGroup)findViewById(R.id.ContentLayout));
+		inflater.inflate(R.layout.news_bottom, (ViewGroup)findViewById(R.id.BottomLayout));
+		list=(ListView)findViewById(R.id.NewsList);
         list.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				News n=(News)view.getTag();				
 				showPopup(n);
-			}
-			
+			}			
 		});
-        progressDlg=ProgressDialog.show(this, "", "Загрузка новостей. Подождите пожалуйста...", true);
+        if(newsList==null)
+        	loadNews();
+        else showNews();
+        ImageButton closeBtn=(ImageButton)findViewById(R.id.CloseNewsBtn);
+        closeBtn.setOnClickListener(new View.OnClickListener() {			
+			public void onClick(View v) {
+				finish();
+			}
+		});
+        ImageButton refreshBtn=(ImageButton)findViewById(R.id.RefreshNewsBtn);
+        refreshBtn.setOnClickListener(new View.OnClickListener() {			
+			public void onClick(View v) {
+				loadNews();
+			}
+		});
+	}
+	private void loadNews(){
+		progressDlg=ProgressDialog.show(this, "", "Загрузка новостей. Подождите пожалуйста...", true);
         final Handler loadHandler=new Handler(){
         	@Override
         	public void handleMessage(Message msg) {
         		super.handleMessage(msg);
-        		list.setAdapter(new NewsAdapter(getApplication(), newsList.toArray(new News[newsList.size()])));        		
+        		showNews();
         		progressDlg.dismiss();        		
         	}
         };
@@ -113,10 +130,12 @@ public class NewsActivity extends Activity {
 					}
 				}			
 		};
-		thread.start();
+		thread.start();		
 	}
-	private Document getXmlDocument(String str)
-	{				
+	private void showNews(){
+		list.setAdapter(new NewsAdapter(getApplication(), newsList.toArray(new News[newsList.size()])));
+	}
+	private Document getXmlDocument(String str){				
 		StringReader sr = new StringReader(str);
 		InputSource is = new InputSource(sr);
 		DocumentBuilderFactory factory=DocumentBuilderFactory.newInstance();

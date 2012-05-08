@@ -40,8 +40,7 @@ public class HttpClient {
 		
 		  if (entity != null) 
 		  {		   
-			   InputStream instream = entity.getContent();
-			   Header enc=entity.getContentEncoding();
+			   InputStream instream = entity.getContent();			   
 			   Header contentEncoding = response.getFirstHeader("Content-Encoding");
 			   if (contentEncoding != null && contentEncoding.getValue().equalsIgnoreCase("gzip")) 
 			    instream = new GZIPInputStream(instream);

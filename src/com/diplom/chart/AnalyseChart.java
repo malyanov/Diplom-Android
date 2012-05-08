@@ -6,14 +6,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.diplom.basics.Quotation;
-import com.diplom.settings.Settings;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.SurfaceView;
+
+import com.diplom.basics.Quotation;
+import com.diplom.settings.Settings;
 
 /**
  *

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+	<LinearLayout android:id="@+id/graphContainer" 			    
+				   android:paddingBottom="5dp"
+				   android:layout_width="match_parent" 
+				   android:layout_height="222dp" 
+				   android:drawingCacheQuality="high" 
+				   android:focusableInTouchMode="true">
+	</LinearLayout>
+	<LinearLayout android:orientation="horizontal" android:gravity="center_horizontal" android:layout_width="match_parent" android:layout_height="wrap_content"> 
+		<DigitalClock android:id="@+id/Clock" android:background="@drawable/time" android:gravity="center" android:layout_width="100dp" android:layout_height="25dp" android:typeface="monospace"></DigitalClock>
+	 	<Button android:id="@+id/FullScreenMode" android:layout_width="wrap_content" android:layout_height="30dp"/>
+	</LinearLayout>
+	<LinearLayout android:id="@+id/analizeGraphContainer"  
+				   android:paddingTop="5dp"
+				   android:layout_width="match_parent"
+				   android:layout_height="120dp">
+	</LinearLayout>
+</LinearLayout>
