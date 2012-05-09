@@ -148,7 +148,8 @@ public class TableActivity extends BaseActivity{
 			public void onClick(View v){
 				table.removeView(v);				
 				rows.remove(v);				
-				MainActivity.querer.removeTask((Instrument)v.getTag());
+				Instrument instr=(Instrument)v.getTag();
+				MainActivity.querer.removeTask(instr.getExchangeId(), instr.getCode());
 				table.invalidate();
 			}
 		});		

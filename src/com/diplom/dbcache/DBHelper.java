@@ -15,7 +15,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.diplom.basics.Quotation;
 import com.diplom.basics.Quotation.QuotationType;
-import com.diplom.basics.Warning;
+import com.diplom.basics.Alarm;
 
 public class DBHelper extends SQLiteOpenHelper {
 	public static final String DB_NAME="informer";
@@ -142,14 +142,14 @@ public class DBHelper extends SQLiteOpenHelper {
 		db.execSQL("DELETE FROM warnings WHERE id_warning="+warningId);
 		db.close();
 	}
-	public List<Warning> getWarnings()
+	public List<Alarm> getWarnings()
 	{
 		SQLiteDatabase db=this.getReadableDatabase();
 		Cursor cur=db.rawQuery("SELECT warnings.*, instruments.id_exchange, instruments.instrument_name FROM warnings INNER JOIN instruments ON warnings.id_instrument=instruments.id_instrument",new String [] {});
 		db.close();
-		List<Warning> result=new ArrayList<Warning>();
+		List<Alarm> result=new ArrayList<Alarm>();
 		while(cur.moveToNext())
-			result.add(new Warning(cur.getInt(cur.getColumnIndex("id_warning")),cur.getString(cur.getColumnIndex("instrument_name")), cur.getDouble(cur.getColumnIndex("expect_value")), 
+			result.add(new Alarm(cur.getString(cur.getColumnIndex("instrument_name")), cur.getDouble(cur.getColumnIndex("expect_value")), 
 					cur.getInt(cur.getColumnIndex("id_exchange"))));
 		return result;
 	}	

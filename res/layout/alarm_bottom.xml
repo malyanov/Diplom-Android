@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+	<ImageButton android:id="@+id/AlarmsList" android:src="@drawable/list" android:layout_marginRight="10dp" android:background="@drawable/button" android:textSize="10dp"   android:layout_width="46dp" android:layout_height="46dp"/>   
+	<ImageButton android:id="@+id/SetAlarm" android:src="@drawable/ok" android:layout_marginRight="10dp" android:background="@drawable/button" android:textSize="10dp"   android:layout_width="46dp" android:layout_height="46dp"/>    
+	<ImageButton android:id="@+id/CloseAlarm" android:src="@drawable/delete_icon" android:layout_marginRight="10dp" android:background="@drawable/button" android:textSize="10dp"   android:layout_width="46dp" android:layout_height="46dp"/>
+</LinearLayout>

@@ -45,6 +45,7 @@ public class HttpClient {
 			   if (contentEncoding != null && contentEncoding.getValue().equalsIgnoreCase("gzip")) 
 			    instream = new GZIPInputStream(instream);
 			   resultString= convertStreamToString(instream, encoding);
+			   Log.i("http", resultString);
 			   instream.close();			   
 		  }	   	   	
 		 }

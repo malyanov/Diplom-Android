@@ -124,7 +124,7 @@ public class MainActivity extends BaseActivity{
         		quots.add((Quotation)msg.obj);
         		chart.init(quots);
         		if(curInstrument!=null)
-        			querer.removeTask(curInstrument);
+        			querer.removeTask(curInstrument.getExchangeId(), curInstrument.getCode());
         		curInstrument=new Instrument(Settings.exchangeId, Settings.boardCode, Settings.instrumentCode, "", 0);
         		querer.addTask(curInstrument, updLastQuotHandler);
         		if(progressDlg!=null)

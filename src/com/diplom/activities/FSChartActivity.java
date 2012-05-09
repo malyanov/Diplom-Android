@@ -97,7 +97,7 @@ public class FSChartActivity extends Activity {
         		quots.add((Quotation)msg.obj);
         		chart.init(quots);
         		if(curInstrument!=null)
-        			MainActivity.querer.removeTask(curInstrument);
+        			MainActivity.querer.removeTask(curInstrument.getExchangeId(), curInstrument.getCode());
         		curInstrument=new Instrument(Settings.exchangeId, Settings.boardCode, Settings.instrumentCode, "", 0);
         		MainActivity.querer.addTask(curInstrument, updLastQuotHandler);
         		if(progressDlg!=null)

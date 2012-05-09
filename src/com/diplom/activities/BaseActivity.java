@@ -50,11 +50,11 @@ public class BaseActivity extends Activity {
     	TextView valueField=(TextView)findViewById(R.id.value);
     	TextView changeField=(TextView)findViewById(R.id.change);
     	ImageView changeDir=(ImageView)findViewById(R.id.trend);    	
-    	if(oldChangeValue<value){    		
+    	if(oldChangeValue<value&&oldChangeValue!=0){    		
     		changeDir.setImageResource(R.drawable.up);
     		valueField.setBackgroundColor(Color.GREEN);
     	}
-    	else if(oldChangeValue>value){    		
+    	else if(oldChangeValue>value&&oldChangeValue!=0){    		
     		changeDir.setImageResource(R.drawable.down);
     		valueField.setBackgroundColor(Color.RED);
     	}

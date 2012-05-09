@@ -28,11 +28,11 @@ public class Querer{
 		tasks.add(task);
 	}
 	
-	public void removeTask(Instrument instrument)
+	public void removeTask(int exchangeId, String code)
 	{
 		for (int i = 0; i < tasks.size(); i++) {
 			Instrument instr=tasks.get(i).getInstrument();
-			if(instrument.getCode().equals(instr.getCode())&&instrument.getExchangeId()==instr.getExchangeId())
+			if(code.equals(instr.getCode())&&exchangeId==instr.getExchangeId())
 			{
 				tasks.get(i).cancel();
 				tasks.remove(i);

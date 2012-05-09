@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:background="@drawable/background" android:gravity="center_horizontal"  android:orientation="vertical"    android:layout_width="fill_parent"    android:layout_height="fill_parent"> 
+ <ListView android:id="@+id/AlarmsListView" android:layout_width="fill_parent" android:layout_height="428dp" android:stretchColumns="2">         
+ </ListView>
+ <LinearLayout android:orientation="horizontal" android:gravity="center_horizontal" android:background="@drawable/bottombar"  android:paddingTop="10dp" android:layout_width="fill_parent" android:layout_height="wrap_content">
+    <ImageButton android:id="@+id/ClearAlarmsBtn" android:src="@drawable/clear" android:background="@drawable/button" android:textSize="10dp"   android:layout_width="46dp" android:layout_height="46dp"/>  
+  	<ImageButton android:id="@+id/CloseAlarmsBtn" android:src="@drawable/delete_icon" android:background="@drawable/button" android:textSize="10dp"   android:layout_width="46dp" android:layout_height="46dp"/>  
+ </LinearLayout>
+</LinearLayout>

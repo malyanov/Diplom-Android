@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:layout_height="372dp">
+	<TextView android:id="@+id/WarningText" android:text="Предупредить меня, когда ? достеигнет:" android:textStyle="bold" android:gravity="center_horizontal" android:layout_width="match_parent" android:layout_height="wrap_content">
+	</TextView>
+	<LinearLayout android:orientation="vertical" android:gravity="center_horizontal" android:layout_width="match_parent" android:layout_height="wrap_content">
+		<EditText android:id="@+id/AlarmValue" android:ems="10" android:inputType="numberDecimal" android:text="0" android:layout_margin="15dp" android:layout_width="100dp" android:gravity="center" android:layout_height="wrap_content">
+		    <requestFocus />
+		</EditText>
+		<LinearLayout android:orientation="horizontal" android:gravity="center" android:layout_width="match_parent" android:layout_height="wrap_content">   
+		    <ImageButton android:id="@+id/DecrAlarmValue" android:src="@drawable/minus" android:background="#0000" android:textSize="10dp"   android:layout_width="46dp" android:layout_height="46dp"/>			 
+			<SeekBar android:id="@+id/AlarmValueBar" android:layout_height="wrap_content" android:layout_margin="5dp" android:layout_width="220dp"></SeekBar>
+			<ImageButton android:id="@+id/IncrAlarmValue" android:src="@drawable/plus" android:background="#0000" android:textSize="10dp"   android:layout_width="46dp" android:layout_height="46dp"/> 
+		</LinearLayout>   
+	</LinearLayout>
+</LinearLayout>

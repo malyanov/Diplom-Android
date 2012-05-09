@@ -42,28 +42,7 @@ public class NewsActivity extends BaseActivity{
 	private static List<News> newsList=null; 
 	private SimpleDateFormat srcDateFormat=new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss Z", Locale.US);
 	private PopupWindow popup=null;
-
-	private void showPopup(News n){
-		if(popup!=null)
-			popup.dismiss();
-		popup=new PopupWindow(this);
-		LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);		
-		View popupView = inflater.inflate(R.layout.news_popup, list, false);
-		TextView dateView = (TextView) popupView.findViewById(R.id.PopupDate);
-		dateView.setOnClickListener(new View.OnClickListener() {			
-			public void onClick(View v) {
-				popup.dismiss();
-			}
-		});
-		dateView.setText(News.getDateFormat().format(n.getDate()));
-		TextView textView = (TextView) popupView.findViewById(R.id.PopupText);		
-		textView.setText(n.getDescription());
-		TextView linkView = (TextView) popupView.findViewById(R.id.PopupLink);		
-		linkView.setText(n.getLink());
-		popup.setContentView(popupView);
-		popup.showAtLocation(list, Gravity.CENTER, 0, 0);
-		popup.update(400, 300);
-	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -92,6 +71,27 @@ public class NewsActivity extends BaseActivity{
 				loadNews();
 			}
 		});
+	}
+	private void showPopup(News n){
+		if(popup!=null)
+			popup.dismiss();
+		popup=new PopupWindow(this);
+		LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);		
+		View popupView = inflater.inflate(R.layout.popup, list, false);
+		TextView dateView = (TextView) popupView.findViewById(R.id.PopupCapture);
+		dateView.setOnClickListener(new View.OnClickListener() {			
+			public void onClick(View v) {
+				popup.dismiss();
+			}
+		});
+		dateView.setText(News.getDateFormat().format(n.getDate()));
+		TextView textView = (TextView) popupView.findViewById(R.id.PopupText);		
+		textView.setText(n.getDescription());
+		TextView linkView = (TextView) popupView.findViewById(R.id.PopupLink);		
+		linkView.setText(n.getLink());
+		popup.setContentView(popupView);
+		popup.showAtLocation(list, Gravity.CENTER, 0, 0);
+		popup.update(400, 300);
 	}
 	private void loadNews(){
 		progressDlg=ProgressDialog.show(this, "", "Загрузка новостей. Подождите пожалуйста...", true);
