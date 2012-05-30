@@ -79,7 +79,7 @@ public class HttpClient {
                 while ((current = bis.read()) != -1) {
                         baf.append((byte) current);
                 }
-                FileOutputStream fos = new FileOutputStream(file);
+                FileOutputStream fos = new FileOutputStream(file, false);
                 fos.write(baf.toByteArray());
                 fos.close();                
 

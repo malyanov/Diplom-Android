@@ -1,10 +1,7 @@
 package com.diplom.chart;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -13,6 +10,7 @@ import android.graphics.Paint;
 import android.view.SurfaceView;
 
 import com.diplom.basics.Quotation;
+import com.diplom.basics.StochasticItem;
 import com.diplom.settings.Settings;
 
 /**
@@ -28,7 +26,7 @@ public class AnalyseChart extends SurfaceView{
     };
     
     public List<Integer> drawPoints=new ArrayList<Integer>();    
-    public HashMap<Integer, Integer> stochasticPoints=new HashMap<Integer, Integer>();
+    public List<StochasticItem> stochasticPoints=null;
     int scaleX, horShift;
     Mode mode;
     
@@ -108,26 +106,19 @@ public class AnalyseChart extends SurfaceView{
             }
         }
         else
-        {
-        	i=0;
-            Iterator it = stochasticPoints.entrySet().iterator();
-            Map.Entry pairs1, pairs2;
+        {        	         
             canvas.drawText("Stochastic", 10, 20, red);
             canvas.drawLine(0, getHeight()/2+(int)(25*scaleFactor), getWidth(), getHeight()/2+(int)(25*scaleFactor), thickBlue);
-            canvas.drawLine(0, getHeight()/2-(int)(25*scaleFactor), getWidth(), getHeight()/2-(int)(25*scaleFactor), thickBlue);
-            if(it.hasNext())
-                pairs1 = (Map.Entry)it.next();
-            else pairs1=null;
-            while (it.hasNext()) {
-                pairs2=(Map.Entry)it.next();                
-                y1=(int)(Math.abs((Integer)pairs1.getValue()*scaleFactor-height));                
-                y2=(int)(Math.abs((Integer)pairs2.getValue()*scaleFactor-height));
-                y3=(int)(Math.abs((Integer)pairs1.getKey()*scaleFactor-height));
-                y4=(int)(Math.abs((Integer)pairs2.getKey()*scaleFactor-height));                
+            canvas.drawLine(0, getHeight()/2-(int)(25*scaleFactor), getWidth(), getHeight()/2-(int)(25*scaleFactor), thickBlue);            
+            for(i=0;i<stochasticPoints.size()-1;i++){
+            	StochasticItem first=stochasticPoints.get(i),
+            			second=stochasticPoints.get(i+1);                                
+                y1=(int)(Math.abs((Integer)first.getSlow()*scaleFactor-height));                
+                y2=(int)(Math.abs((Integer)second.getSlow()*scaleFactor-height));
+                y3=(int)(Math.abs((Integer)first.getFast()*scaleFactor-height));
+                y4=(int)(Math.abs((Integer)second.getFast()*scaleFactor-height));                
                 canvas.drawLine(horShift+i*scaleX, y1, horShift+(i+1)*scaleX, y2, red);                
                 canvas.drawLine(horShift+i*scaleX, y3, horShift+(i+1)*scaleX, y4, blue);
-                pairs1=pairs2;
-                i++;
             }
         }
         canvas.drawRect(getWidth()-PADDING, 0, getWidth(), getHeight(), black);
@@ -174,9 +165,9 @@ public class AnalyseChart extends SurfaceView{
         }
         return result;
     }    
-    public HashMap<Integer, Integer> Stochastic(List<Quotation> quotes)
+    public List<StochasticItem> Stochastic(List<Quotation> quotes)
     {
-        HashMap<Integer, Integer> result=new HashMap<Integer, Integer>();
+    	List<StochasticItem> result=new ArrayList<StochasticItem>();
         int periodsNum=4;
         double periodHigh, periodLow, closeValue;
         double a=2.0/(quotes.size()+1.0);
@@ -197,7 +188,7 @@ public class AnalyseChart extends SurfaceView{
             fast=(closeValue - periodLow) / (periodHigh - periodLow) * 100.0;
             slow=a*fast+(1.0-a)*slowPrev;
             slowPrev=slow;
-            result.put((int)Math.floor(fast), (int)Math.floor(slow));
+            result.add(new StochasticItem((int)Math.floor(slow), (int)Math.floor(fast)));
         }
         return result;
     }

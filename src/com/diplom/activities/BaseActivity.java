@@ -2,21 +2,27 @@ package com.diplom.activities;
 
 import java.text.DecimalFormat;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.TextView;
+
 import com.diplom.basics.Instrument;
 import com.diplom.basics.Querer;
 import com.diplom.dbcache.DBHelper;
 import com.diplom.loaders.FileParser;
 import com.diplom.loaders.MICEX_Loader;
 import com.diplom.loaders.RTS_Loader;
-
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 public class BaseActivity extends Activity {
 //	Common Variables
@@ -31,6 +37,9 @@ public class BaseActivity extends Activity {
 	protected static MICEX_Loader micex;
     protected static RTS_Loader rts;
     protected static  FileParser parser;
+    
+    //Other
+    protected PopupWindow errorPopup;
     
 	protected static ProgressDialog progressDlg;
 	@Override
@@ -98,4 +107,27 @@ public class BaseActivity extends Activity {
 		setChange(value);
 		curInstrument.setValue(value);
     }
+    public static void resetOldChangeValue(){
+    	oldChangeValue=0;
+    }
+    protected void showError(String caption, String info){
+		if(errorPopup!=null)
+			errorPopup.dismiss();
+		errorPopup=new PopupWindow(this);
+		LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);		
+		View popupView = inflater.inflate(R.layout.popup, (ViewGroup)findViewById(R.id.baseBack), false);
+		TextView captionView = (TextView) popupView.findViewById(R.id.PopupCapture);
+		captionView.setBackgroundColor(Color.RED);
+		captionView.setOnClickListener(new View.OnClickListener() {			
+			public void onClick(View v) {
+				errorPopup.dismiss();
+			}
+		});
+		captionView.setText(caption);
+		TextView textView = (TextView) popupView.findViewById(R.id.PopupText);		
+		textView.setText(info);		
+		errorPopup.setContentView(popupView);
+		errorPopup.showAtLocation((ViewGroup)findViewById(R.id.baseBack), Gravity.CENTER, 0, 0);
+		errorPopup.update(400, 170);
+	}
 }

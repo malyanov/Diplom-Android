@@ -129,6 +129,7 @@ public class ChartSettingsActivity extends Activity {
 				Settings.chartMode=chartMode;
 				Settings.exchangeId=exchangeId;
 				Settings.analyseMode=analyseMode;
+				BaseActivity.resetOldChangeValue();
 				Settings.save();
 				stopActivity();
 				return false;

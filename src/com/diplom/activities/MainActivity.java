@@ -127,8 +127,11 @@ public class MainActivity extends BaseActivity{
         			querer.removeTask(curInstrument.getExchangeId(), curInstrument.getCode());
         		curInstrument=new Instrument(Settings.exchangeId, Settings.boardCode, Settings.instrumentCode, "", 0);
         		querer.addTask(curInstrument, updLastQuotHandler);
-        		if(progressDlg!=null)
+        		if(progressDlg!=null){
         			progressDlg.hide();
+        			//debug
+//        			showError("Потеряно соединение с сервером", "Пожалуйста, проверьте наличие соединения с Интернетом");
+        		}
         	}
         };        
         if(Settings.exchangeId==Instrument.RTS){
