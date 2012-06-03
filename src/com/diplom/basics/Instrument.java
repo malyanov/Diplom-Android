@@ -8,7 +8,7 @@ public class Instrument implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public static final int RTS=1, MICEX=2;
+	public static final int MICEX=0, RTS=1;
 	
 	private String code, board;
 	private int exchangeId;

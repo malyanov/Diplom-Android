@@ -115,16 +115,15 @@ public class BaseActivity extends Activity {
 			errorPopup.dismiss();
 		errorPopup=new PopupWindow(this);
 		LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);		
-		View popupView = inflater.inflate(R.layout.popup, (ViewGroup)findViewById(R.id.baseBack), false);
-		TextView captionView = (TextView) popupView.findViewById(R.id.PopupCapture);
-		captionView.setBackgroundColor(Color.RED);
+		View popupView = inflater.inflate(R.layout.error_popup, (ViewGroup)findViewById(R.id.baseBack), false);
+		TextView captionView = (TextView) popupView.findViewById(R.id.ErrorCapture);		
 		captionView.setOnClickListener(new View.OnClickListener() {			
 			public void onClick(View v) {
 				errorPopup.dismiss();
 			}
 		});
 		captionView.setText(caption);
-		TextView textView = (TextView) popupView.findViewById(R.id.PopupText);		
+		TextView textView = (TextView) popupView.findViewById(R.id.ErrorText);		
 		textView.setText(info);		
 		errorPopup.setContentView(popupView);
 		errorPopup.showAtLocation((ViewGroup)findViewById(R.id.baseBack), Gravity.CENTER, 0, 0);

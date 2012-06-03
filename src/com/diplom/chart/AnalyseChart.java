@@ -58,6 +58,7 @@ public class AnalyseChart extends SurfaceView{
         red.setColor(Color.RED);      
         red.setAntiAlias(true);
         red.setFakeBoldText(true);
+        red.setTextSize(20);
         green.setColor(0xff61965d);
         green.setStrokeWidth(2);
         green.setAntiAlias(true);
@@ -106,7 +107,7 @@ public class AnalyseChart extends SurfaceView{
             }
         }
         else
-        {        	         
+        {        	
             canvas.drawText("Stochastic", 10, 20, red);
             canvas.drawLine(0, getHeight()/2+(int)(25*scaleFactor), getWidth(), getHeight()/2+(int)(25*scaleFactor), thickBlue);
             canvas.drawLine(0, getHeight()/2-(int)(25*scaleFactor), getWidth(), getHeight()/2-(int)(25*scaleFactor), thickBlue);            

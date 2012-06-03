@@ -55,7 +55,7 @@ public class FSChartActivity extends Activity {
 		}
 		setContentView(R.layout.fs_chart_activity);
 		LinearLayout ll=(LinearLayout)findViewById(R.id.FullScreenContainer);
-		ll.addView(chart, new LayoutParams(LayoutParams.MATCH_PARENT, 220));
+		ll.addView(chart, new LayoutParams(LayoutParams.MATCH_PARENT, 380));
 		ll.addView(analizeGraph, new LayoutParams(LayoutParams.MATCH_PARENT, 100));
 		loadChartData();
 	}

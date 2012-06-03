@@ -97,11 +97,10 @@ public class MainActivity extends BaseActivity{
     //------------------------------------Chart Data Functions-----------------------------------------
     @Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {		
-		if(resultCode==RESULT_OK&&requestCode==SETTINGS_ACTIVITY_CODE)
-		{
+		if(resultCode==RESULT_OK&&requestCode==SETTINGS_ACTIVITY_CODE){
 			progressDlg=ProgressDialog.show(this, "", "Загрузка данных. Подождите пожалуйста...", true);
-			setInfo(Settings.exchangeId, Settings.instrumentCode);
-			loadChartData();
+			setInfo(Settings.exchangeId, Settings.instrumentCode);			
+			loadChartData();			
 			analizeGraph.setMode(Settings.analyseMode);
 		}
 	};
@@ -119,8 +118,12 @@ public class MainActivity extends BaseActivity{
         Date start=calendar.getTime();
         Handler dataHandler=new Handler(){
         	@Override
-        	public void handleMessage(Message msg) {        		        	
-        		quots=parser.readFile();
+        	public void handleMessage(Message msg) {
+        		try{
+        			quots=parser.readFile();
+	        	}catch(Exception ex){
+	    			showError("Ошибка!", "Неверный формат данных истории котировок");
+	    		}
         		quots.add((Quotation)msg.obj);
         		chart.init(quots);
         		if(curInstrument!=null)
@@ -128,20 +131,23 @@ public class MainActivity extends BaseActivity{
         		curInstrument=new Instrument(Settings.exchangeId, Settings.boardCode, Settings.instrumentCode, "", 0);
         		querer.addTask(curInstrument, updLastQuotHandler);
         		if(progressDlg!=null){
-        			progressDlg.hide();
-        			//debug
-//        			showError("Потеряно соединение с сервером", "Пожалуйста, проверьте наличие соединения с Интернетом");
+        			progressDlg.hide();        			
+        			showError("Потеряно соединение с сервером", "Пожалуйста, проверьте наличие соединения с Интернетом");
         		}
         	}
-        };        
-        if(Settings.exchangeId==Instrument.RTS){
-        	rts=new RTS_Loader();
-        	rts.getDataForChart(Settings.instrumentCode, start, Settings.bidType, dataHandler);        	
-        }
-        else if(Settings.exchangeId==Instrument.MICEX){
-        	micex=new MICEX_Loader();
-        	micex.getDataForChart(Settings.instrumentCode, start, Settings.bidType, dataHandler);
-        }
+        };     
+        try{
+	        if(Settings.exchangeId==Instrument.RTS){
+	        	rts=new RTS_Loader();
+	        	rts.getDataForChart(Settings.instrumentCode, start, Settings.bidType, dataHandler);        	
+	        }
+	        else if(Settings.exchangeId==Instrument.MICEX){
+	        	micex=new MICEX_Loader();
+	        	micex.getDataForChart(Settings.instrumentCode, start, Settings.bidType, dataHandler);
+	        }
+        }catch(Exception ex){
+			showError("Ошибка!", "Потеряно соединение с Интернетом");
+		}
     }
     //----------------------------------------------------------------------------------------------------    
     @Override

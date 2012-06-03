@@ -28,32 +28,97 @@ public class ChartSettingsActivity extends Activity {
 	private String instrumentCode="GAZP";
 	private AnalyseChart.Mode analyseMode=AnalyseChart.Mode.RSI;
 	private Chart.Modes chartMode=Chart.Modes.CURVES;
-	private QuotationType bidType=QuotationType.Hour_Bid; 
+	private QuotationType bidType=QuotationType.Hour_Bid;
+	private boolean firstLoad=true;
 	
-	private void loadInstruments()
-	{
-		if(exchangeId==Instrument.MICEX)
-		{
-			ArrayAdapter<CharSequence> instradapter = new ArrayAdapter<CharSequence>(getApplicationContext(), 
+	private void loadInstruments(){
+		ArrayAdapter<CharSequence> instradapter;
+		if(exchangeId==Instrument.MICEX)		
+			instradapter = new ArrayAdapter<CharSequence>(getApplicationContext(), 
 					android.R.layout.simple_spinner_item, MICEX_Loader.EmitentCodes);
-	        instradapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	        instrspinner.setAdapter(instradapter);
-		}
-		else
-		{
-			ArrayAdapter<CharSequence> instradapter = new ArrayAdapter<CharSequence>(getApplicationContext(), 
+		else instradapter = new ArrayAdapter<CharSequence>(getApplicationContext(),
 					android.R.layout.simple_spinner_item, RTS_Loader.EmitentCodes);
-	        instradapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-	        instrspinner.setAdapter(instradapter);
+		instradapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);		
+		instrspinner.setAdapter(instradapter);		
+		if(firstLoad){
+			int index=instradapter.getPosition(instrumentCode);
+			instrspinner.setSelection(index);
+			firstLoad=false;
 		}
 	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {		
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.chart_settings);
+		setContentView(R.layout.chart_settings);		
+		
+		instrumentCode=Settings.instrumentCode;
+		exchangeId=Settings.exchangeId;
+		analyseMode=Settings.analyseMode;
+		bidType=Settings.bidType;
+		chartMode=Settings.chartMode;
+		
+		instrspinner = (Spinner) findViewById(R.id.SpinnerInstrument);        
 		
 		Spinner exchspinner = (Spinner) findViewById(R.id.SpinnerExchange);
-		exchspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+		ArrayAdapter<CharSequence> exchadapter = ArrayAdapter.createFromResource(
+                this, R.array.exchange_items, android.R.layout.simple_spinner_item);
+        exchadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        exchspinner.setAdapter(exchadapter);
+        exchspinner.setSelection(exchangeId);
+        
+        Spinner analysespinner = (Spinner) findViewById(R.id.AnalyseSpinner);
+        ArrayAdapter<CharSequence> analyseadapter = ArrayAdapter.createFromResource(
+                this, R.array.analyse_items, android.R.layout.simple_spinner_item);
+        analyseadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        analysespinner.setAdapter(analyseadapter);
+        analysespinner.setSelection(analyseMode==AnalyseChart.Mode.RSI?0:1);              
+        
+        RadioGroup graphType=(RadioGroup)findViewById(R.id.GraphType);
+        for(int i=0;i<graphType.getChildCount();i++){
+        	RadioButton r=(RadioButton)graphType.getChildAt(i);
+        	if(r.getText().equals(chartMode.locName))
+        		r.setChecked(true);
+        }
+        
+        RadioGroup bidTypeGroup=(RadioGroup)findViewById(R.id.BidType);
+        for(int i=0;i<bidTypeGroup.getChildCount();i++){
+        	RadioButton r=(RadioButton)bidTypeGroup.getChildAt(i);
+        	if(r.getText().equals(bidType.locName))
+        		r.setChecked(true);
+        }
+              
+        ImageButton saveBtn=(ImageButton)findViewById(R.id.SaveSettings);
+        saveBtn.setOnTouchListener(new ImageButton.OnTouchListener() {			
+			public boolean onTouch(View v, MotionEvent event) {
+				Settings.instrumentCode=instrumentCode;
+				Settings.bidType=bidType;
+				Settings.chartMode=chartMode;
+				Settings.exchangeId=exchangeId;
+				Settings.analyseMode=analyseMode;
+				BaseActivity.resetOldChangeValue();
+				Settings.save();
+				stopActivity(RESULT_OK);
+				return false;
+			}
+		});
+        ImageButton cancelBtn=(ImageButton)findViewById(R.id.CancelSettings);
+        cancelBtn.setOnTouchListener(new ImageButton.OnTouchListener() {			
+			public boolean onTouch(View v, MotionEvent event) {				
+				stopActivity(RESULT_CANCELED);
+				return false;
+			}
+		});        
+        instrspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			public void onItemSelected(AdapterView<?> spinner, View text,	int index, long lindex) {
+				if(text==null)
+					return;
+				String value=(String)((TextView)text).getText();
+				instrumentCode=value;
+			}
+			public void onNothingSelected(AdapterView<?> arg0) {				
+			}
+		});
+        exchspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			public void onItemSelected(AdapterView<?> spinner, View text,	int index, long lindex) {
 				String value=(String)((TextView)text).getText();
 				if(value.equals("РТС"))
@@ -65,22 +130,6 @@ public class ChartSettingsActivity extends Activity {
 			public void onNothingSelected(AdapterView<?> arg0) {				
 			}
 		});
-        ArrayAdapter<CharSequence> exchadapter = ArrayAdapter.createFromResource(
-                this, R.array.exchange_items, android.R.layout.simple_spinner_item);
-        exchadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        exchspinner.setAdapter(exchadapter);
-        
-        instrspinner = (Spinner) findViewById(R.id.SpinnerInstrument);
-        instrspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-			public void onItemSelected(AdapterView<?> spinner, View text,	int index, long lindex) {
-				String value=(String)((TextView)text).getText();
-				instrumentCode=value;
-			}
-			public void onNothingSelected(AdapterView<?> arg0) {				
-			}
-		});        
-        
-        Spinner analysespinner = (Spinner) findViewById(R.id.AnalyseSpinner);
         analysespinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			public void onItemSelected(AdapterView<?> spinner, View text, int index, long lindex) {				
 				String value=(String)((TextView)text).getText();
@@ -92,12 +141,6 @@ public class ChartSettingsActivity extends Activity {
 			public void onNothingSelected(AdapterView<?> arg0) {				
 			}
 		});
-        ArrayAdapter<CharSequence> analyseadapter = ArrayAdapter.createFromResource(
-                this, R.array.analyse_items, android.R.layout.simple_spinner_item);
-        analyseadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        analysespinner.setAdapter(analyseadapter);
-        
-        RadioGroup graphType=(RadioGroup)findViewById(R.id.GraphType);        
         graphType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {			
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
 				RadioButton rb=(RadioButton)group.findViewById(checkedId);
@@ -110,7 +153,6 @@ public class ChartSettingsActivity extends Activity {
 					chartMode=Chart.Modes.CANDLES;
 			}
 		});
-        RadioGroup bidTypeGroup=(RadioGroup)findViewById(R.id.BidType);        
         bidTypeGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {			
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
 				RadioButton rb=(RadioButton)group.findViewById(checkedId);
@@ -120,33 +162,10 @@ public class ChartSettingsActivity extends Activity {
 				else if(type.equals("По дням"))
 					bidType=QuotationType.Day_Bid;
 			}
-		});
-        ImageButton saveBtn=(ImageButton)findViewById(R.id.SaveSettings);
-        saveBtn.setOnTouchListener(new ImageButton.OnTouchListener() {			
-			public boolean onTouch(View v, MotionEvent event) {
-				Settings.instrumentCode=instrumentCode;
-				Settings.bidType=bidType;
-				Settings.chartMode=chartMode;
-				Settings.exchangeId=exchangeId;
-				Settings.analyseMode=analyseMode;
-				BaseActivity.resetOldChangeValue();
-				Settings.save();
-				stopActivity();
-				return false;
-			}
-		});
-        ImageButton cancelBtn=(ImageButton)findViewById(R.id.CancelSettings);
-        cancelBtn.setOnTouchListener(new ImageButton.OnTouchListener() {			
-			public boolean onTouch(View v, MotionEvent event) {
-				setResult(RESULT_CANCELED);
-				stopActivity();
-				return false;
-			}
-		});
+		});  
 	}
-	private void stopActivity()
-	{
-		setResult(RESULT_OK);
+	private void stopActivity(int result){
+		setResult(result);
 		finish();
 	}
 }

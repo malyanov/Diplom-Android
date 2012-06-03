@@ -13,10 +13,12 @@ import java.util.Date;
  */
 public class Quotation
 {   
-	public enum QuotationType {Hour_Bid(0),Day_Bid(1);
+	public enum QuotationType {Hour_Bid(0, "По часам"),Day_Bid(1, "По дням");
 		public int id;
-		QuotationType(int id){
+		public String locName;
+		QuotationType(int id, String locName){
 			this.id=id;
+			this.locName=locName;
 		}
 		public static QuotationType getById(int id)
 		{

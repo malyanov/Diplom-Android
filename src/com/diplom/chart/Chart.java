@@ -10,35 +10,30 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Point;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.SurfaceView;
 import android.view.View;
 
-import com.diplom.activities.MainActivity;
-import com.diplom.basics.Instrument;
 import com.diplom.basics.Quotation;
 import com.diplom.basics.Quotation.QuotationType;
-import com.diplom.loaders.FileParser;
-import com.diplom.loaders.MICEX_Loader;
-import com.diplom.loaders.RTS_Loader;
 import com.diplom.settings.Settings;
 
 public class Chart extends SurfaceView
 {
 	public final int MAX_SCALE=60, MIN_SCALE=10;
-    public final int SCALE_DELTA=5, MOVE_DELTA=2;
+    public final int SCALE_DELTA=5, MOVE_DELTA=3;
     
     public int PADDING=40;
     
     public enum Modes{
-    	CURVES(0), CANDLES(1), BARS(2);
-    	public final int id;
-    	Modes(int id){
+    	CURVES(0, "Ломаная"), CANDLES(1, "Свечи"), BARS(2, "Бары");
+    	public final int id;    	
+    	public final String locName;
+    	Modes(int id, String locName){
     		this.id=id;
+    		this.locName=locName;
     	}
     	public static Modes getById(int id)
     	{
@@ -107,6 +102,7 @@ public class Chart extends SurfaceView
         red.setColor(Color.RED);      
         red.setAntiAlias(true);        
         red.setFakeBoldText(true);
+        red.setTextSize(20);
         this.isFullscreen=isFullscreen;
         this.analyseChart=analyseChart;
         mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
@@ -193,7 +189,7 @@ public class Chart extends SurfaceView
 				startPoint.y=(int)event.getY();
 				Log.i("down", "action down");
 			}
-			else if(event.getAction()==MotionEvent.ACTION_MOVE)
+			if(event.getAction()==MotionEvent.ACTION_MOVE)
 			{
 				if(isDragging)
 				{
@@ -203,12 +199,12 @@ public class Chart extends SurfaceView
 							moveRight();
 						else moveLeft();
 					}
-					else
-					{
-						if(startPoint.y<event.getY())
-							decreaseScale();
-						else increaseScale();
-					}
+//					else
+//					{
+//						if(startPoint.y<event.getY())
+//							decreaseScale();
+//						else increaseScale();
+//					}
 					Log.i("move", "action move x="+event.getX()+"; y="+event.getY());
 				}
 			}
@@ -349,8 +345,8 @@ public class Chart extends SurfaceView
       g.drawText(Settings.instrumentCode, 20, 20, red);
       int curValue=(int)Math.abs((qList.get(qList.size()-1).closeValue-minValue)*scaleFactor-graphHeight)+vertShift;//change  ot curent      
       g.drawLine(0, curValue, this.getWidth(), curValue, red);      
-      g.drawRect(graphWidth, curValue, this.getWidth(), curValue+15, white);      
-      g.drawText(String.valueOf(qList.get(qList.size()-1).closeValue), this.getWidth()-PADDING+5, curValue+12, red);
+      g.drawRect(graphWidth, curValue, this.getWidth(), curValue+20, white);      
+      g.drawText(String.valueOf(qList.get(qList.size()-1).closeValue), this.getWidth()-PADDING+5, curValue+18, red);
       
     }
     private void prepare(int num){
