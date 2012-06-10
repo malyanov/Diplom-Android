@@ -88,7 +88,7 @@ public class MainActivity extends BaseActivity{
         findViewById(R.id.FullScreenMode).setOnClickListener(new OnClickListener(){		
     		public void onClick(View v){
     			Intent intent = new Intent(MainActivity.this, FSChartActivity.class);			
-                startActivity(intent);
+                startActivity(intent);    			
     		}
     	});
         
@@ -130,10 +130,8 @@ public class MainActivity extends BaseActivity{
         			querer.removeTask(curInstrument.getExchangeId(), curInstrument.getCode());
         		curInstrument=new Instrument(Settings.exchangeId, Settings.boardCode, Settings.instrumentCode, "", 0);
         		querer.addTask(curInstrument, updLastQuotHandler);
-        		if(progressDlg!=null){
-        			progressDlg.hide();        			
-        			showError("Потеряно соединение с сервером", "Пожалуйста, проверьте наличие соединения с Интернетом");
-        		}
+        		if(progressDlg!=null)
+        			progressDlg.hide();
         	}
         };     
         try{

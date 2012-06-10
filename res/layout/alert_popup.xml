@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <TextView
+        android:id="@+id/AlertCapture"
+        android:padding="3dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:text="Предупреждение"
+        android:background="@android:color/holo_green_light"
+        android:textAppearance="?android:attr/textAppearanceMedium"         
+        android:gravity="center"/>
+    <TextView
+        android:id="@+id/AlertText"
+        android:padding="3dp"
+        android:layout_width="match_parent"        
+        android:layout_height="140dp"        
+        android:text="Текст предупреждения"
+        android:textSize="10pt" 
+        android:textStyle="italic" 
+        android:gravity="center_horizontal"/>    
+</LinearLayout>

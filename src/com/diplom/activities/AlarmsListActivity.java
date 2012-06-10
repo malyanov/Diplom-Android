@@ -22,6 +22,7 @@ import com.diplom.elements.AlarmsAdapter;
 public class AlarmsListActivity extends BaseActivity{
 	private static List<Alarm> alarms=new ArrayList<Alarm>();
 	private static HashMap<String, Handler> handlers=new HashMap<String, Handler>();
+	private static AlarmsListActivity instance;
 	private ListView list;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {	
@@ -31,7 +32,7 @@ public class AlarmsListActivity extends BaseActivity{
 		list.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
 				Alarm alarm=(Alarm)view.getTag();
-				new AlertDialog.Builder(getInstanceALA())
+				new AlertDialog.Builder(getInstance())
 		        .setIcon(android.R.drawable.ic_dialog_alert)
 		        .setTitle("ѕредупреждение")
 		        .setMessage(String.format("¬ы действительно хотите удалить предупреждение дл€ %s на значение %.3f", alarm.getInstrumentCode(), alarm.getExpectValue()))
@@ -61,9 +62,10 @@ public class AlarmsListActivity extends BaseActivity{
 			}
 		});
 		showAlarms();
+		instance=this;
 	}
-	private AlarmsListActivity getInstanceALA(){
-		return this;
+	public static AlarmsListActivity getInstance(){
+		return instance;
 	}
 	public static void addAlarm(Alarm warn){
 		alarms.add(warn);
@@ -77,6 +79,8 @@ public class AlarmsListActivity extends BaseActivity{
 						if(w.getExchangeId()==instr.getExchangeId()&&w.getInstrumentCode().equals(instr.getCode())&&instr.getValue()>=w.getExpectValue()){
 							Log.i("expect value", "alert");
 							BaseActivity.showAlert(String.format("«начение котировки %s достигло ожидаемого значени€ в %f пункта", instr.getCode(), instr.getValue()));
+							querer.removeTask(instr.getExchangeId(), instr.getCode());
+							removeAlarm(instr.getCode());			        		
 						}
 					}
 				}
@@ -84,6 +88,16 @@ public class AlarmsListActivity extends BaseActivity{
 			handlers.put(key, handler);
 			querer.addTask(new Instrument(warn.getExchangeId(), curInstrument.getBoard(), curInstrument.getCode(), curInstrument.getName(), warn.getExpectValue()), handler);
 		}
+	}
+	public static void removeAlarm(String code){
+		for(int i=0;i<alarms.size();i++){
+			if(alarms.get(i).getInstrumentCode().equals(code)){
+				alarms.remove(i);
+				return;
+			}
+		}
+		if(getInstance()!=null)
+			getInstance().showAlarms();
 	}
 	private void showAlarms(){
 		list.setAdapter(new AlarmsAdapter(getApplication(), alarms.toArray(new Alarm[alarms.size()])));

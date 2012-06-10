@@ -10,9 +10,22 @@
 				   android:drawingCacheQuality="high" 
 				   android:focusableInTouchMode="true">
 	</LinearLayout>
-	<LinearLayout android:orientation="horizontal" android:gravity="center_horizontal" android:layout_width="match_parent" android:layout_height="wrap_content"> 
-		<DigitalClock android:id="@+id/Clock" android:background="@drawable/time" android:gravity="center" android:layout_width="100dp" android:layout_height="25dp" android:typeface="monospace"></DigitalClock>
-	 	<Button android:id="@+id/FullScreenMode" android:layout_width="wrap_content" android:layout_height="30dp"/>
+	<LinearLayout android:orientation="horizontal" android:gravity="center_horizontal" android:layout_width="match_parent" android:layout_height="match_parent">
+		<LinearLayout android:orientation="horizontal" android:gravity="center_horizontal" android:layout_width="match_parent" android:layout_height="wrap_content"> 
+			<DigitalClock android:id="@+id/Clock" 
+			    android:background="@drawable/time" 
+			    android:gravity="center" 
+			    android:layout_width="100dp" 
+			    android:layout_height="25dp" 
+			    android:layout_marginLeft="30dp"
+			    android:typeface="monospace"></DigitalClock>	 	
+		</LinearLayout>
+		<ImageButton android:id="@+id/FullScreenMode" 
+		    android:src="@drawable/fullscreen" 
+		    android:background="@drawable/button"
+		    android:layout_width="30dp"
+		    android:layout_height="30dp"
+		    android:layout_marginRight="45dp"/>		
 	</LinearLayout>
 	<LinearLayout android:id="@+id/analizeGraphContainer"  
 				   android:paddingTop="5dp"

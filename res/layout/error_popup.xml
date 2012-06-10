@@ -11,11 +11,14 @@
         android:layout_gravity="top"
         android:text="Дата"
         android:background="@android:color/holo_red_dark"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium" 
+        android:gravity="center"/>
     <TextView
         android:id="@+id/ErrorText"
         android:padding="3dp"
         android:layout_width="match_parent"        
         android:layout_height="140dp"        
-        android:text="Текст новости" />    
+        android:text="Текст новости" 
+        android:textStyle="italic" 
+        android:gravity="center_horizontal"/>    
 </LinearLayout>

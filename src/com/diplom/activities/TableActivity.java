@@ -60,6 +60,7 @@ public class TableActivity extends BaseActivity{
 			public void onClick(View v){
 				for (TableRow row : rows)
 					table.removeView(row);
+				finish();
 			}
 		});		
 	}
