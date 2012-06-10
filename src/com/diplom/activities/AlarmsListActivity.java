@@ -31,7 +31,7 @@ public class AlarmsListActivity extends BaseActivity{
 		list.setOnItemClickListener(new OnItemClickListener() {
 			public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
 				Alarm alarm=(Alarm)view.getTag();
-				new AlertDialog.Builder(getInstance())
+				new AlertDialog.Builder(getInstanceALA())
 		        .setIcon(android.R.drawable.ic_dialog_alert)
 		        .setTitle("ѕредупреждение")
 		        .setMessage(String.format("¬ы действительно хотите удалить предупреждение дл€ %s на значение %.3f", alarm.getInstrumentCode(), alarm.getExpectValue()))
@@ -62,7 +62,7 @@ public class AlarmsListActivity extends BaseActivity{
 		});
 		showAlarms();
 	}
-	private AlarmsListActivity getInstance(){
+	private AlarmsListActivity getInstanceALA(){
 		return this;
 	}
 	public static void addAlarm(Alarm warn){
@@ -76,6 +76,7 @@ public class AlarmsListActivity extends BaseActivity{
 					for (Alarm w : alarms) {
 						if(w.getExchangeId()==instr.getExchangeId()&&w.getInstrumentCode().equals(instr.getCode())&&instr.getValue()>=w.getExpectValue()){
 							Log.i("expect value", "alert");
+							BaseActivity.showAlert(String.format("«начение котировки %s достигло ожидаемого значени€ в %f пункта", instr.getCode(), instr.getValue()));
 						}
 					}
 				}

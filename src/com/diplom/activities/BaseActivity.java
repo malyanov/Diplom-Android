@@ -1,11 +1,14 @@
 package com.diplom.activities;
 
 import java.text.DecimalFormat;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -29,18 +32,17 @@ public class BaseActivity extends Activity {
 	public static Instrument curInstrument=null;
 	public static DBHelper db;
 	public static Querer querer;	
-//
-//	Help Objects
+	private static BaseActivity instance;
 	private static double oldChangeValue=0;
+	//Constants
+	private static final long ALERT_WINDOW_DELAY=3000l; 
 //
+
 //	Loaders and parsers
 	protected static MICEX_Loader micex;
     protected static RTS_Loader rts;
     protected static  FileParser parser;
-    
-    //Other
-    protected PopupWindow errorPopup;
-    
+        
 	protected static ProgressDialog progressDlg;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {		
@@ -54,7 +56,13 @@ public class BaseActivity extends Activity {
 			setInfo(curInstrument.getExchangeId(), curInstrument.getCode());
 			setChange(curInstrument.getValue());
 		}
+		instance=this;
 	}
+	
+	public static BaseActivity getInstance() {
+		return instance;
+	}
+
 	protected void setChange(double value){
     	TextView valueField=(TextView)findViewById(R.id.value);
     	TextView changeField=(TextView)findViewById(R.id.change);
@@ -111,9 +119,7 @@ public class BaseActivity extends Activity {
     	oldChangeValue=0;
     }
     protected void showError(String caption, String info){
-		if(errorPopup!=null)
-			errorPopup.dismiss();
-		errorPopup=new PopupWindow(this);
+    	final PopupWindow errorPopup=new PopupWindow(this);		
 		LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);		
 		View popupView = inflater.inflate(R.layout.error_popup, (ViewGroup)findViewById(R.id.baseBack), false);
 		TextView captionView = (TextView) popupView.findViewById(R.id.ErrorCapture);		
@@ -122,6 +128,15 @@ public class BaseActivity extends Activity {
 				errorPopup.dismiss();
 			}
 		});
+		final Timer timer=new Timer();
+		timer.schedule(new TimerTask() {			
+			@Override
+			public void run() {
+				errorPopup.dismiss();
+				timer.cancel();
+				timer.purge();
+			}
+		}, ALERT_WINDOW_DELAY);
 		captionView.setText(caption);
 		TextView textView = (TextView) popupView.findViewById(R.id.ErrorText);		
 		textView.setText(info);		
@@ -129,4 +144,37 @@ public class BaseActivity extends Activity {
 		errorPopup.showAtLocation((ViewGroup)findViewById(R.id.baseBack), Gravity.CENTER, 0, 0);
 		errorPopup.update(400, 170);
 	}
+    public static void showAlert(String info){    	
+    	final PopupWindow errorPopup=new PopupWindow(BaseActivity.getInstance());		
+		LayoutInflater inflater = (LayoutInflater) BaseActivity.getInstance().getSystemService(Context.LAYOUT_INFLATER_SERVICE);		
+		View popupView = inflater.inflate(R.layout.error_popup, (ViewGroup)BaseActivity.getInstance().findViewById(R.id.baseBack), false);
+		TextView captionView = (TextView) popupView.findViewById(R.id.ErrorCapture);		
+		captionView.setOnClickListener(new View.OnClickListener() {			
+			public void onClick(View v) {
+				errorPopup.dismiss();
+			}
+		});
+		final Timer timer=new Timer();
+		timer.schedule(new TimerTask() {			
+			@Override
+			public void run() {
+				errorPopup.dismiss();
+				timer.cancel();
+				timer.purge();
+			}
+		}, ALERT_WINDOW_DELAY);
+		captionView.setText("Предупреждение");
+		TextView textView = (TextView) popupView.findViewById(R.id.ErrorText);		
+		textView.setText(info);		
+		errorPopup.setContentView(popupView);
+		errorPopup.showAtLocation((ViewGroup)BaseActivity.getInstance().findViewById(R.id.baseBack), Gravity.CENTER, 0, 0);
+		errorPopup.update(400, 170);
+		MediaPlayer mp=MediaPlayer.create(getInstance(), R.raw.alert);
+		try {
+             mp.prepare();
+        } catch (Exception e) {             
+             e.printStackTrace();
+        }
+        mp.start();
+    }
 }

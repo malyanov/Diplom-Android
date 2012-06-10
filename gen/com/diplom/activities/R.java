@@ -9,8 +9,8 @@ package com.diplom.activities;
 
 public final class R {
     public static final class array {
-        public static final int analyse_items=0x7f050001;
-        public static final int exchange_items=0x7f050000;
+        public static final int analyse_items=0x7f060001;
+        public static final int exchange_items=0x7f060000;
     }
     public static final class attr {
     }
@@ -44,77 +44,77 @@ public final class R {
         public static final int up=0x7f02001a;
     }
     public static final class id {
-        public static final int AddButton=0x7f06003e;
-        public static final int AddQuote=0x7f060002;
-        public static final int AlarmButton=0x7f060030;
-        public static final int AlarmInstrument=0x7f06000f;
-        public static final int AlarmValue=0x7f060008;
-        public static final int AlarmValueBar=0x7f06000a;
-        public static final int AlarmsList=0x7f060004;
-        public static final int AlarmsListView=0x7f06000c;
-        public static final int AnalyseSpinner=0x7f060025;
-        public static final int BidType=0x7f060021;
-        public static final int BottomLayout=0x7f060019;
-        public static final int CancelAddButton=0x7f06003f;
-        public static final int CancelQuote=0x7f060003;
-        public static final int CancelSettings=0x7f060027;
-        public static final int ChartButton=0x7f06002e;
-        public static final int ClearAlarmsBtn=0x7f06000d;
-        public static final int Clock=0x7f060033;
-        public static final int CloseAlarm=0x7f060006;
-        public static final int CloseAlarmsBtn=0x7f06000e;
-        public static final int CloseNewsBtn=0x7f060037;
-        public static final int ContentLayout=0x7f060018;
-        public static final int DecrAlarmValue=0x7f060009;
-        public static final int ErrorCapture=0x7f060028;
-        public static final int ErrorText=0x7f060029;
-        public static final int ExchText=0x7f060015;
-        public static final int FullScreenContainer=0x7f06002a;
-        public static final int FullScreenMode=0x7f060034;
-        public static final int GraphType=0x7f06001e;
-        public static final int IncrAlarmValue=0x7f06000b;
-        public static final int InstrText=0x7f060016;
-        public static final int NewsButton=0x7f060031;
-        public static final int NewsDate=0x7f060039;
-        public static final int NewsList=0x7f060038;
-        public static final int NewsTitle=0x7f06003a;
-        public static final int PopupCapture=0x7f06003b;
-        public static final int PopupLink=0x7f06003d;
-        public static final int PopupText=0x7f06003c;
-        public static final int RadioButton02=0x7f060023;
-        public static final int RefreshNewsBtn=0x7f060036;
-        public static final int RowChange=0x7f060045;
-        public static final int RowDirection=0x7f060046;
-        public static final int RowExchange=0x7f060042;
-        public static final int RowInstrument=0x7f060043;
-        public static final int RowValue=0x7f060044;
-        public static final int SaveSettings=0x7f060026;
-        public static final int SetAlarm=0x7f060005;
-        public static final int SpExchange=0x7f060000;
-        public static final int SpInstrument=0x7f060001;
-        public static final int SpinnerExchange=0x7f06001b;
-        public static final int SpinnerInstrument=0x7f06001d;
-        public static final int Table=0x7f060040;
-        public static final int TableButton=0x7f06002f;
-        public static final int TableRow=0x7f060041;
-        public static final int TextView01=0x7f06001a;
-        public static final int TextView02=0x7f06001c;
-        public static final int TextView03=0x7f060024;
-        public static final int TextView04=0x7f060020;
-        public static final int TopLayout=0x7f060011;
-        public static final int WarningText=0x7f060007;
-        public static final int analizeGraphContainer=0x7f060035;
-        public static final int bars_mode=0x7f06002d;
-        public static final int baseBack=0x7f060010;
-        public static final int candles_mode=0x7f06002c;
-        public static final int change=0x7f060017;
-        public static final int curves_mode=0x7f06002b;
-        public static final int firstBidType=0x7f060022;
-        public static final int firstGraphType=0x7f06001f;
-        public static final int graphContainer=0x7f060032;
-        public static final int logo=0x7f060014;
-        public static final int trend=0x7f060012;
-        public static final int value=0x7f060013;
+        public static final int AddButton=0x7f07003e;
+        public static final int AddQuote=0x7f070002;
+        public static final int AlarmButton=0x7f070030;
+        public static final int AlarmInstrument=0x7f07000f;
+        public static final int AlarmValue=0x7f070008;
+        public static final int AlarmValueBar=0x7f07000a;
+        public static final int AlarmsList=0x7f070004;
+        public static final int AlarmsListView=0x7f07000c;
+        public static final int AnalyseSpinner=0x7f070025;
+        public static final int BidType=0x7f070021;
+        public static final int BottomLayout=0x7f070019;
+        public static final int CancelAddButton=0x7f07003f;
+        public static final int CancelQuote=0x7f070003;
+        public static final int CancelSettings=0x7f070027;
+        public static final int ChartButton=0x7f07002e;
+        public static final int ClearAlarmsBtn=0x7f07000d;
+        public static final int Clock=0x7f070033;
+        public static final int CloseAlarm=0x7f070006;
+        public static final int CloseAlarmsBtn=0x7f07000e;
+        public static final int CloseNewsBtn=0x7f070037;
+        public static final int ContentLayout=0x7f070018;
+        public static final int DecrAlarmValue=0x7f070009;
+        public static final int ErrorCapture=0x7f070028;
+        public static final int ErrorText=0x7f070029;
+        public static final int ExchText=0x7f070015;
+        public static final int FullScreenContainer=0x7f07002a;
+        public static final int FullScreenMode=0x7f070034;
+        public static final int GraphType=0x7f07001e;
+        public static final int IncrAlarmValue=0x7f07000b;
+        public static final int InstrText=0x7f070016;
+        public static final int NewsButton=0x7f070031;
+        public static final int NewsDate=0x7f070039;
+        public static final int NewsList=0x7f070038;
+        public static final int NewsTitle=0x7f07003a;
+        public static final int PopupCapture=0x7f07003b;
+        public static final int PopupLink=0x7f07003d;
+        public static final int PopupText=0x7f07003c;
+        public static final int RadioButton02=0x7f070023;
+        public static final int RefreshNewsBtn=0x7f070036;
+        public static final int RowChange=0x7f070045;
+        public static final int RowDirection=0x7f070046;
+        public static final int RowExchange=0x7f070042;
+        public static final int RowInstrument=0x7f070043;
+        public static final int RowValue=0x7f070044;
+        public static final int SaveSettings=0x7f070026;
+        public static final int SetAlarm=0x7f070005;
+        public static final int SpExchange=0x7f070000;
+        public static final int SpInstrument=0x7f070001;
+        public static final int SpinnerExchange=0x7f07001b;
+        public static final int SpinnerInstrument=0x7f07001d;
+        public static final int Table=0x7f070040;
+        public static final int TableButton=0x7f07002f;
+        public static final int TableRow=0x7f070041;
+        public static final int TextView01=0x7f07001a;
+        public static final int TextView02=0x7f07001c;
+        public static final int TextView03=0x7f070024;
+        public static final int TextView04=0x7f070020;
+        public static final int TopLayout=0x7f070011;
+        public static final int WarningText=0x7f070007;
+        public static final int analizeGraphContainer=0x7f070035;
+        public static final int bars_mode=0x7f07002d;
+        public static final int baseBack=0x7f070010;
+        public static final int candles_mode=0x7f07002c;
+        public static final int change=0x7f070017;
+        public static final int curves_mode=0x7f07002b;
+        public static final int firstBidType=0x7f070022;
+        public static final int firstGraphType=0x7f07001f;
+        public static final int graphContainer=0x7f070032;
+        public static final int logo=0x7f070014;
+        public static final int trend=0x7f070012;
+        public static final int value=0x7f070013;
     }
     public static final class layout {
         public static final int add_quote_activity=0x7f030000;
@@ -137,10 +137,13 @@ public final class R {
         public static final int table_content=0x7f030011;
         public static final int table_row=0x7f030012;
     }
+    public static final class raw {
+        public static final int alert=0x7f040000;
+    }
     public static final class string {
-        public static final int analyse=0x7f040003;
-        public static final int app_name=0x7f040000;
-        public static final int exchange=0x7f040001;
-        public static final int instrument=0x7f040002;
+        public static final int analyse=0x7f050003;
+        public static final int app_name=0x7f050000;
+        public static final int exchange=0x7f050001;
+        public static final int instrument=0x7f050002;
     }
 }
