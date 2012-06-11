@@ -7,7 +7,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.SurfaceView;
 
 import com.diplom.basics.Quotation;
@@ -19,7 +18,7 @@ import com.diplom.settings.Settings;
  * @author Malyanov Dmitry
  */
 public class AnalyseChart extends SurfaceView{
-    public enum Mode{RSI(0), Stochastic(1);
+    public enum Mode{RSI(0), Stochastic(1), Momentum(2);
 	    public final int id;
 		Mode(int id){
 			this.id=id;
@@ -66,57 +65,30 @@ public class AnalyseChart extends SurfaceView{
         green.setStrokeWidth(2);
         green.setAntiAlias(true);
     }    
-    public void setMode(Mode mode)
-    {
+    public void setMode(Mode mode){
         this.mode=mode;
     }
     public void setParams(int horShift, int scaleX) {        
         this.horShift=horShift;
         this.scaleX=scaleX;
     }    
-    public void setInputData(List<Quotation> quotes)
-    {        
+    public void setInputData(List<Quotation> quotes){
+    	Analiser analiser=new Analiser(quotes);
         if(mode==Mode.RSI)
-            RSIPoints=RSI(quotes);
-        else stochasticPoints=Stochastic(quotes);
+            RSIPoints=analiser.RSI();
+        else stochasticPoints=analiser.stochastic();
         invalidate();
     }
     @Override
     protected void onDraw(Canvas canvas) {    	
     	super.onDraw(canvas);
     	PADDING=(int)(0.08*this.getWidth());
-    	double scaleFactor=this.getHeight()/100.0;
-        int height=this.getHeight();        
-        int y1, y2, y3, y4;
-        int i=0;
-        for(i=0;i<100;i++){               
-        	if(i%6==0)
-        		canvas.drawLine(0, (int)Math.floor(i*scaleFactor), getWidth(), (int)Math.floor(i*scaleFactor), gray);          
-        }
-        for(i=0;i<RSIPoints.size();i++)
-        	canvas.drawLine(horShift+i*scaleX, 0, horShift+i*scaleX, getHeight(), gray);
+        
         String label="RSI";
-        if(mode==Mode.RSI){
-            canvas.drawLine(0, getHeight()/2, getWidth(), getHeight()/2, thickBlue);
-            canvas.drawText("RSI", 10, 20, red);
-            for(i=0;i<RSIPoints.size()-1;i++){
-                y1=(int)(Math.abs(RSIPoints.get(i)*scaleFactor-height));
-                y2=(int)(Math.abs(RSIPoints.get(i+1)*scaleFactor-height));
-                canvas.drawLine(horShift+i*scaleX, y1, horShift+(i+1)*scaleX, y2, green);
-            }
-        }
+        if(mode==Mode.RSI)
+        	drawRSI(canvas);
         else{            
-            canvas.drawLine(0, getHeight()/2+(int)(25*scaleFactor), getWidth(), getHeight()/2+(int)(25*scaleFactor), thickBlue);
-            canvas.drawLine(0, getHeight()/2-(int)(25*scaleFactor), getWidth(), getHeight()/2-(int)(25*scaleFactor), thickBlue);            
-            for(i=0;i<stochasticPoints.size()-1;i++){
-            	StochasticItem first=stochasticPoints.get(i), second=stochasticPoints.get(i+1);                                
-                y1=(int)(Math.abs((Integer)first.getSlow()*scaleFactor-height));                
-                y2=(int)(Math.abs((Integer)second.getSlow()*scaleFactor-height));
-                y3=(int)(Math.abs((Integer)first.getFast()*scaleFactor-height));
-                y4=(int)(Math.abs((Integer)second.getFast()*scaleFactor-height));                
-                canvas.drawLine(horShift+i*scaleX, y1, horShift+(i+1)*scaleX, y2, red);                
-                canvas.drawLine(horShift+i*scaleX, y3, horShift+(i+1)*scaleX, y4, blue);
-            }
+            drawStochastic(canvas);
             label="Stochastic";
         }
         canvas.drawRect(getWidth()-PADDING, 0, getWidth(), getHeight(), black);
@@ -127,85 +99,41 @@ public class AnalyseChart extends SurfaceView{
         canvas.drawText("10", getWidth()-PADDING+2, (int)(getHeight()*0.9)+3, white);
         canvas.drawText(label, 10, 20, red);
     }
-    public List<Integer> RSI(List<Quotation> quotes)
-    {
-        List<Integer> result=new ArrayList<Integer>();
-        double closeValue1=0, closeValue2;
-        double U, D, Up=1, Dp=1, RS, RSI;
-        double Su, Sd, Sup=1, Sdp=1;
-        double a=2.0/(quotes.size()+1.0);
-        for(int i=0;i<quotes.size()-1;i++){
-            closeValue1=quotes.get(i).closeValue;
-            closeValue2=quotes.get(i+1).closeValue;
-            if(closeValue2>closeValue1){
-                U=closeValue2-closeValue1;
-                D=0;
-            }
-            else{
-                U=0;
-                D=closeValue1-closeValue2;
-            }
-            Su=a*Up+(1.0-a)*Sup;
-            Up=U;
-            Sup=Su;
-            Sd=a*Dp+(1.0-a)*Sdp;
-            Dp=D;
-            Sdp=Sd;
-            if(Sd>0){
-                RS=Su/Sd;
-                RSI=100.0-100.0/(1.0+RS);
-            }
-            else RSI=100.0;
-            result.add((int)Math.floor(RSI));
+    private void drawRSI(Canvas canvas){
+    	int y1, y2, i;
+    	double scaleFactor=this.getHeight()/100.0;    	
+        for(i=0;i<100;i++){               
+        	if(i%6==0)
+        		canvas.drawLine(0, (int)Math.floor(i*scaleFactor), getWidth(), (int)Math.floor(i*scaleFactor), gray);          
         }
-        return result;
-    }    
-    public List<StochasticItem> Stochastic(List<Quotation> quotes){
-    	List<StochasticItem> result=new ArrayList<StochasticItem>();
-        int periodsNum=4;
-        double periodHigh, periodLow, closeValue;
-        double a=2.0/(quotes.size()+1.0);
-        double fast, slow, slowPrev=1.0;
-        for(int i=0;i<quotes.size()-1;i++){
-            closeValue=quotes.get(i).closeValue;
-            if(i<periodsNum){
-                periodHigh=getMaxClose(quotes.subList(0, periodsNum));
-                periodLow=getMinClose(quotes.subList(0, periodsNum));
-            }
-            else{
-                periodHigh=getMaxClose(quotes.subList(i-periodsNum, i));
-                periodLow=getMinClose(quotes.subList(i-periodsNum, i));
-            }
-            fast=Math.abs(closeValue - periodLow) / (periodHigh - periodLow) * 100.0;
-            if(fast<0)
-            	Log.i("stochastic","fast="+fast);
-            slow=a*fast+(1.0-a)*slowPrev;
-            slowPrev=slow;
-            result.add(new StochasticItem((int)Math.floor(slow), (int)Math.floor(fast)%100));
+        for(i=0;i<RSIPoints.size();i++)
+        	canvas.drawLine(horShift+i*scaleX, 0, horShift+i*scaleX, getHeight(), gray);
+    	canvas.drawLine(0, getHeight()/2, getWidth(), getHeight()/2, thickBlue);
+        canvas.drawText("RSI", 10, 20, red);
+        for(i=0;i<RSIPoints.size()-1;i++){
+            y1=(int)(Math.abs(RSIPoints.get(i)*scaleFactor-this.getHeight()));
+            y2=(int)(Math.abs(RSIPoints.get(i+1)*scaleFactor-this.getHeight()));
+            canvas.drawLine(horShift+i*scaleX, y1, horShift+(i+1)*scaleX, y2, green);
         }
-        return result;
     }
-    private double getMinClose(List<Quotation> values)
-    {
-        double min=values.get(0).closeValue, v;
-        for(int i=1;i<values.size();i++)
-        {
-            v=values.get(i).closeValue;
-            if(v<min)
-                min=v;
+    private void drawStochastic(Canvas canvas){
+    	int y1, y2, y3, y4, height=this.getHeight(), i;
+    	double scaleFactor=this.getHeight()/100.0;
+    	for(i=0;i<100;i++){               
+        	if(i%6==0)
+        		canvas.drawLine(0, (int)Math.floor(i*scaleFactor), getWidth(), (int)Math.floor(i*scaleFactor), gray);          
         }
-        return min;
-    }
-    private double getMaxClose(List<Quotation> values)
-    {
-        double max=values.get(0).closeValue, v;
-        for(int i=1;i<values.size();i++)
-        {
-            v=values.get(i).closeValue;
-            if(v>max)
-                max=v;
+    	canvas.drawLine(0, getHeight()/2+(int)(25*scaleFactor), getWidth(), getHeight()/2+(int)(25*scaleFactor), thickBlue);
+        canvas.drawLine(0, getHeight()/2-(int)(25*scaleFactor), getWidth(), getHeight()/2-(int)(25*scaleFactor), thickBlue);            
+        for(i=0;i<stochasticPoints.size()-1;i++){
+        	StochasticItem first=stochasticPoints.get(i), second=stochasticPoints.get(i+1);                                
+            y1=(int)(Math.abs((Integer)first.getSlow()*scaleFactor-height));                
+            y2=(int)(Math.abs((Integer)second.getSlow()*scaleFactor-height));
+            y3=(int)(Math.abs((Integer)first.getFast()*scaleFactor-height));
+            y4=(int)(Math.abs((Integer)second.getFast()*scaleFactor-height));                
+            canvas.drawLine(horShift+i*scaleX, y1, horShift+(i+1)*scaleX, y2, red);                
+            canvas.drawLine(horShift+i*scaleX, y3, horShift+(i+1)*scaleX, y4, blue);
         }
-        return max;
     }
 }
 
