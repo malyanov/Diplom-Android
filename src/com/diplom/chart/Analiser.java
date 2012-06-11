@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.util.Log;
 
+import com.diplom.basics.BollingerBands;
 import com.diplom.basics.Quotation;
 import com.diplom.basics.StochasticItem;
 
@@ -71,34 +72,58 @@ public class Analiser {
         }
         return result;
     }
-    public List<Integer> RoC(){//Momentum
-    	List<Integer> result=new ArrayList<Integer>();
+    public List<Double> momentum(){
+    	List<Double> result=new ArrayList<Double>();
     	int periodsNum=4;
     	double nowPrice, prevPrice;
         for(int i=0;i<quotes.size()-1;i++){
             nowPrice=quotes.get(i).closeValue;
             if(i<periodsNum)
             	prevPrice=quotes.get(0).closeValue;
-            else prevPrice=quotes.get(i-periodsNum).closeValue;
-            int value=(int)Math.ceil((nowPrice-prevPrice)/prevPrice*100.0)%100;
-            result.add(value);
+            else prevPrice=quotes.get(i-periodsNum).closeValue;            
+            result.add((nowPrice-prevPrice)/prevPrice*100.0);
         }
     	return result;
     }
-    public List<Integer> MA(int chartHeight){//exponetial moving average
+    public List<Integer> MA(){//exponetial moving average
     	List<Integer> result=new ArrayList<Integer>();
     	int periodsNum=4;
-        double a=2/(periodsNum+1);
+        double a=2.0/(periodsNum+1.0);
         double ema, emaPrev=getAvgClose(quotes.subList(0, periodsNum)), periodAvg;
         for(int i=1;i<quotes.size()-1;i++){
         	if(i<periodsNum)
-                periodAvg=getAvgClose(quotes.subList(0, periodsNum));
-            else  periodAvg=getAvgClose(quotes.subList(i-periodsNum, i));
+              periodAvg=getAvgClose(quotes.subList(0, periodsNum));
+            else periodAvg=getAvgClose(quotes.subList(i-periodsNum, i));
             ema=a*periodAvg+(1.0-a)*emaPrev;
             emaPrev=ema;
-            result.add((int)Math.ceil(ema)%chartHeight);
+            result.add((int)Math.round(ema));
         }
         return result;
+    }
+    public List<BollingerBands> BollingerBands(int D){
+    	List<BollingerBands> result=new ArrayList<BollingerBands>();
+    	int periodsNum=4;
+    	double StdDev;        
+        double ml, tl, bl;
+        List<Quotation> values;
+        for(int i=1;i<quotes.size()-1;i++){
+        	if(i<periodsNum)
+        		values=quotes.subList(0, periodsNum);
+            else values=quotes.subList(i-periodsNum, i);            
+            ml=getAvgClose(values);
+            StdDev=calcStdDev(ml, quotes);
+            tl=D*StdDev;
+            bl=-D*StdDev;
+            result.add(new BollingerBands(ml, tl, bl));
+        }
+    	return result;
+    }
+  //StdDev = SQRT (SUM ((CLOSE – SMA (CLOSE, N))^2, N)/N),
+    private double calcStdDev(double sma, List<Quotation> values){
+    	double sum=0;
+        for(Quotation q:values)
+            sum+=Math.pow(q.closeValue-sma,2);
+        return Math.sqrt(sum/values.size());
     }
     private double getAvgClose(List<Quotation> values){
         double sum=0;

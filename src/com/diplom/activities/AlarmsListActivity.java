@@ -78,7 +78,7 @@ public class AlarmsListActivity extends BaseActivity{
 					for (Alarm w : alarms) {
 						if(w.getExchangeId()==instr.getExchangeId()&&w.getInstrumentCode().equals(instr.getCode())&&instr.getValue()>=w.getExpectValue()){
 							Log.i("expect value", "alert");
-							BaseActivity.showAlert(String.format("Значение котировки %s достигло ожидаемого значения в %f пункта", instr.getCode(), instr.getValue()));
+							BaseActivity.showAlert(String.format("Значение котировки %s достигло ожидаемого значения в %.3f пункта", instr.getCode(), instr.getValue()));
 							querer.removeTask(instr.getExchangeId(), instr.getCode());
 							removeAlarm(instr.getCode());			        		
 						}

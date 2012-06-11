@@ -36,7 +36,7 @@ public class BaseActivity extends Activity {
 	private static BaseActivity instance;
 	private static double oldChangeValue=0;
 	//Constants
-	private static final long ALERT_WINDOW_DELAY=10000l; 
+	private static final long ERROR_WINDOW_DELAY=10000l; 
 //
 
 //	Loaders and parsers
@@ -142,7 +142,7 @@ public class BaseActivity extends Activity {
 				timer.cancel();
 				timer.purge();
 			}
-		}, ALERT_WINDOW_DELAY);
+		}, ERROR_WINDOW_DELAY);
 		captionView.setText(caption);
 		TextView textView = (TextView) popupView.findViewById(R.id.ErrorText);		
 		textView.setText(info);		

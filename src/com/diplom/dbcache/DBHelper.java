@@ -76,13 +76,14 @@ public class DBHelper extends SQLiteOpenHelper {
 			@Override
 			public void run() {
 				int type=HOUR_BID;
+				DateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				if(quotes.get(0).type==QuotationType.Day_Bid)
 					type=DAY_BID;
 				ContentValues cv=new ContentValues();		
 				for (Quotation q : quotes) {		
 					cv.put("id_instrument", instrumentId);		
 					cv.put("id_type", type);
-					cv.put("quotation_time", q.dateTime.toLocaleString());
+					cv.put("quotation_time", iso8601Format.format(q.dateTime));
 					cv.put("min_price", q.lowValue);
 					cv.put("max_price", q.highValue);
 					cv.put("open_price", q.openValue);

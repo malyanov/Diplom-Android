@@ -10,6 +10,7 @@
     <string name="analyse">Выберите способ анализа</string>
     <string-array name="analyse_items">
         <item>RSI</item>
-        <item>Stochastic</item>        
+        <item>Stochastic</item>
+        <item>Momentum</item>
     </string-array>
 </resources>

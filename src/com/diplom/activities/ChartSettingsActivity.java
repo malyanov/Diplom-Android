@@ -71,7 +71,18 @@ public class ChartSettingsActivity extends Activity {
                 this, R.array.analyse_items, android.R.layout.simple_spinner_item);
         analyseadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         analysespinner.setAdapter(analyseadapter);
-        analysespinner.setSelection(analyseMode==AnalyseChart.Mode.RSI?0:1);              
+        int index=0;
+        switch(analyseMode){
+	        case RSI:
+	        	index=0;
+	        	break;
+	        case Stochastic:
+	        	index=1;
+	        	break;
+	        case Momentum:
+	        	index=2;
+        }
+        analysespinner.setSelection(index);              
         
         RadioGroup graphType=(RadioGroup)findViewById(R.id.GraphType);
         for(int i=0;i<graphType.getChildCount();i++){
@@ -137,6 +148,8 @@ public class ChartSettingsActivity extends Activity {
 					analyseMode=AnalyseChart.Mode.RSI;
 				else if(value.equals("Stochastic"))
 					analyseMode=AnalyseChart.Mode.Stochastic;
+				else if(value.equals("Momentum"))
+					analyseMode=AnalyseChart.Mode.Momentum;
 			}
 			public void onNothingSelected(AdapterView<?> arg0) {				
 			}

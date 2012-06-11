@@ -1,5 +1,6 @@
 package com.diplom.chart;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,10 +26,12 @@ public class AnalyseChart extends SurfaceView{
 		}
     };
     
-    public List<Integer> RSIPoints=new ArrayList<Integer>();    
+    public List<Integer> RSIPoints=new ArrayList<Integer>();
+    private List<Double> momentumPoints=new ArrayList<Double>();    
     public List<StochasticItem> stochasticPoints=null;
-    int scaleX, horShift;
-    Mode mode;
+    private int scaleX, horShift;
+    private Mode mode;
+    private static DecimalFormat df=new DecimalFormat("0.00");
     
     public int PADDING=40;
     
@@ -76,7 +79,9 @@ public class AnalyseChart extends SurfaceView{
     	Analiser analiser=new Analiser(quotes);
         if(mode==Mode.RSI)
             RSIPoints=analiser.RSI();
-        else stochasticPoints=analiser.stochastic();
+        else if(mode==Mode.Stochastic) 
+        	stochasticPoints=analiser.stochastic();
+        else momentumPoints=analiser.momentum();
         invalidate();
     }
     @Override
@@ -87,16 +92,13 @@ public class AnalyseChart extends SurfaceView{
         String label="RSI";
         if(mode==Mode.RSI)
         	drawRSI(canvas);
-        else{            
+        else if(mode==Mode.Stochastic){            
             drawStochastic(canvas);
             label="Stochastic";
-        }
-        canvas.drawRect(getWidth()-PADDING, 0, getWidth(), getHeight(), black);
-        canvas.drawText("90", getWidth()-PADDING+2, (int)(getHeight()*0.1)+3, white);
-        canvas.drawText("70", getWidth()-PADDING+2, (int)(getHeight()*0.3)+3, white);
-        canvas.drawText("50", getWidth()-PADDING+2, getHeight()/2+3, white);        
-        canvas.drawText("30", getWidth()-PADDING+2, (int)(getHeight()*0.7)+3, white);
-        canvas.drawText("10", getWidth()-PADDING+2, (int)(getHeight()*0.9)+3, white);
+        }else{
+        	drawMomentum(canvas);
+        	label="Momentum";
+        }        
         canvas.drawText(label, 10, 20, red);
     }
     private void drawRSI(Canvas canvas){
@@ -108,13 +110,47 @@ public class AnalyseChart extends SurfaceView{
         }
         for(i=0;i<RSIPoints.size();i++)
         	canvas.drawLine(horShift+i*scaleX, 0, horShift+i*scaleX, getHeight(), gray);
-    	canvas.drawLine(0, getHeight()/2, getWidth(), getHeight()/2, thickBlue);
-        canvas.drawText("RSI", 10, 20, red);
+    	canvas.drawLine(0, getHeight()/2, getWidth(), getHeight()/2, thickBlue);        
         for(i=0;i<RSIPoints.size()-1;i++){
             y1=(int)(Math.abs(RSIPoints.get(i)*scaleFactor-this.getHeight()));
             y2=(int)(Math.abs(RSIPoints.get(i+1)*scaleFactor-this.getHeight()));
             canvas.drawLine(horShift+i*scaleX, y1, horShift+(i+1)*scaleX, y2, green);
         }
+        canvas.drawRect(getWidth()-PADDING, 0, getWidth(), getHeight(), black);
+        canvas.drawText("90", getWidth()-PADDING+2, (int)(getHeight()*0.1)+3, white);
+        canvas.drawText("70", getWidth()-PADDING+2, (int)(getHeight()*0.3)+3, white);
+        canvas.drawText("50", getWidth()-PADDING+2, getHeight()/2+3, white);        
+        canvas.drawText("30", getWidth()-PADDING+2, (int)(getHeight()*0.7)+3, white);
+        canvas.drawText("10", getWidth()-PADDING+2, (int)(getHeight()*0.9)+3, white);
+    }
+    private void drawMomentum(Canvas canvas){
+    	int y1, y2, i;    	    	
+//        for(i=0;i<10;i++){
+//        	canvas.drawLine(0, (int)Math.floor(i*scaleFactor), getWidth(), (int)Math.floor(i*scaleFactor), gray);          
+//        }
+        double max, min;
+        max=min=momentumPoints.get(0);
+        for(i=0;i<momentumPoints.size();i++){
+        	if(momentumPoints.get(i)>max)
+        		max=momentumPoints.get(i);
+        	if(momentumPoints.get(i)<min)
+        		min=momentumPoints.get(i);
+        	canvas.drawLine(horShift+i*scaleX, 0, horShift+i*scaleX, getHeight(), gray);
+        }
+        double delta=max-min;
+        double scaleFactor=getHeight()/delta;
+        for(i=0;i<momentumPoints.size()-1;i++){
+            y1=(int)(Math.abs(momentumPoints.get(i)*scaleFactor-this.getHeight()/2));
+            y2=(int)(Math.abs(momentumPoints.get(i+1)*scaleFactor-this.getHeight()/2));
+            canvas.drawLine(horShift+i*scaleX, y1, horShift+(i+1)*scaleX, y2, green);
+        }
+        canvas.drawRect(getWidth()-PADDING, 0, getWidth(), getHeight(), black);
+        int x=getWidth()-PADDING+2, y;        
+        for(i=0;i<10;i++){
+        	y=(int)(getHeight()*0.1*i)+10;
+        	canvas.drawText(df.format(max-delta/10.0*i), x, y, white);
+        	canvas.drawLine(0, y, getWidth()-PADDING, y, gray);
+        }        
     }
     private void drawStochastic(Canvas canvas){
     	int y1, y2, y3, y4, height=this.getHeight(), i;
@@ -134,6 +170,12 @@ public class AnalyseChart extends SurfaceView{
             canvas.drawLine(horShift+i*scaleX, y1, horShift+(i+1)*scaleX, y2, red);                
             canvas.drawLine(horShift+i*scaleX, y3, horShift+(i+1)*scaleX, y4, blue);
         }
+        canvas.drawRect(getWidth()-PADDING, 0, getWidth(), getHeight(), black);
+        canvas.drawText("90", getWidth()-PADDING+2, (int)(getHeight()*0.1)+3, white);
+        canvas.drawText("70", getWidth()-PADDING+2, (int)(getHeight()*0.3)+3, white);
+        canvas.drawText("50", getWidth()-PADDING+2, getHeight()/2+3, white);        
+        canvas.drawText("30", getWidth()-PADDING+2, (int)(getHeight()*0.7)+3, white);
+        canvas.drawText("10", getWidth()-PADDING+2, (int)(getHeight()*0.9)+3, white);
     }
 }
 

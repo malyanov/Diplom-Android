@@ -15,6 +15,7 @@ import android.view.ScaleGestureDetector;
 import android.view.SurfaceView;
 import android.view.View;
 
+import com.diplom.basics.BollingerBands;
 import com.diplom.basics.Quotation;
 import com.diplom.settings.Settings;
 
@@ -162,54 +163,58 @@ public class Chart extends SurfaceView{
           firstRun=false;
           PADDING=(int)(0.08*this.getWidth());          
       }
-      int graphWidth=getWidth()-PADDING;
-      int graphHeight=getHeight()-PADDING;
-      int vertTicks=graphWidth/curScaleX,          
-          horTicks=graphHeight/curScaleY;
+      int chartWidth=getWidth()-PADDING;
+      int chartHeight=getHeight()-PADDING;
+      int vertTicks=chartWidth/curScaleX,          
+          horTicks=chartHeight/curScaleY;
       if(qList==null||qList.size()==0)
     	  return;
       prepare(vertTicks+2);
       double valuesHeight=maxValue-minValue;
-      double scaleFactor=graphHeight/valuesHeight;
+      double scaleFactor=chartHeight/valuesHeight;
       double horTickValue=valuesHeight/horTicks;
-      int horShift=vertTicks*curScaleX-graphWidth;
-      int vertShift=graphHeight-horTicks*curScaleY;
+      int horShift=vertTicks*curScaleX-chartWidth;
+      int vertShift=chartHeight-horTicks*curScaleY;
       int x,y;      
       analyseChart.setParams(horShift, curScaleX);
       analyseChart.setInputData(points);      
       for(int i=0;i<points.size();i++){
           x=horShift+i*curScaleX;          
-          if(x<=graphWidth)
-        	  g.drawLine(x, 0, x, graphHeight, gray);          
+          if(x<=chartWidth)
+        	  g.drawLine(x, 0, x, chartHeight, gray);          
       }
       for(int j=0;j<horTicks;j++){
           y=vertShift+j*curScaleY;                    
-          g.drawLine(0, y, graphWidth, y, gray);          
+          g.drawLine(0, y, chartWidth, y, gray);          
       }
-      double openValue=0, closeValue=0, highValue=0, lowValue=0;      
+      double openValue=0, closeValue=0, highValue=0, lowValue=0;
+      if(Settings.bollingerBands)
+    	  drawBollingerBands(g, horShift, vertShift, chartHeight, scaleFactor);
+      if(Settings.ma)
+    	  drawMA(g, horShift, vertShift, chartHeight, scaleFactor);
       switch(mode){
-          case CURVES:              
+          case CURVES:
               for(int i=0;i<points.size()-1;i++){                  
-                  g.drawLine(horShift+i*curScaleX, (int)Math.abs((points.get(i).closeValue-minValue)*scaleFactor-graphHeight)+vertShift, 
-                               horShift+(i+1)*curScaleX, (int)Math.abs((points.get(i+1).closeValue-minValue)*scaleFactor-graphHeight)+vertShift, black);
-              }
+                  g.drawLine(horShift+i*curScaleX, (int)Math.abs((points.get(i).closeValue-minValue)*scaleFactor-chartHeight)+vertShift, 
+                               horShift+(i+1)*curScaleX, (int)Math.abs((points.get(i+1).closeValue-minValue)*scaleFactor-chartHeight)+vertShift, black);
+              }              
               break;
           case CANDLES:
               int cX,cY, cWidth, cHeight;
               for(int i=0;i<points.size();i++){
-                  g.drawLine(horShift+i*curScaleX, (int)Math.abs((points.get(i).highValue-minValue)*scaleFactor-graphHeight)+vertShift, 
-                          horShift+i*curScaleX, (int)Math.abs((points.get(i).lowValue-minValue)*scaleFactor-graphHeight)+vertShift, black);
+                  g.drawLine(horShift+i*curScaleX, (int)Math.abs((points.get(i).highValue-minValue)*scaleFactor-chartHeight)+vertShift, 
+                          horShift+i*curScaleX, (int)Math.abs((points.get(i).lowValue-minValue)*scaleFactor-chartHeight)+vertShift, black);
                   openValue=points.get(i).openValue;
                   closeValue=points.get(i).closeValue;
                   cX=horShift+i*curScaleX-2;
                   Paint candlePaint;
                   if(openValue>closeValue){           
                 	  candlePaint=black;
-                      cY=(int)Math.ceil(Math.abs((openValue-minValue)*scaleFactor-graphHeight))+vertShift;
+                      cY=(int)Math.ceil(Math.abs((openValue-minValue)*scaleFactor-chartHeight))+vertShift;
                   }
                   else{
                       candlePaint=white;
-                      cY=(int)Math.ceil(Math.abs((closeValue-minValue)*scaleFactor-graphHeight))+vertShift;
+                      cY=(int)Math.ceil(Math.abs((closeValue-minValue)*scaleFactor-chartHeight))+vertShift;
                   }                  
                   cWidth=4;
                   cHeight=Math.abs((int)((openValue-closeValue)*scaleFactor));
@@ -231,24 +236,24 @@ public class Chart extends SurfaceView{
                   if(openValue<closeValue)
                       barPaint=blue;
                   else barPaint=black;
-                  g.drawLine(horShift+i*curScaleX, (int)Math.abs((highValue-minValue)*scaleFactor-graphHeight)+vertShift, 
-                          horShift+i*curScaleX, (int)Math.abs((lowValue-minValue)*scaleFactor-graphHeight)+vertShift, barPaint);
-                  vpos=(int)Math.abs((openValue-minValue)*scaleFactor-graphHeight)+vertShift;
+                  g.drawLine(horShift+i*curScaleX, (int)Math.abs((highValue-minValue)*scaleFactor-chartHeight)+vertShift, 
+                          horShift+i*curScaleX, (int)Math.abs((lowValue-minValue)*scaleFactor-chartHeight)+vertShift, barPaint);
+                  vpos=(int)Math.abs((openValue-minValue)*scaleFactor-chartHeight)+vertShift;
                   g.drawLine(horShift+i*curScaleX-barLevelWidth,vpos , horShift+i*curScaleX, vpos, barPaint);
-                  vpos=(int)Math.abs((closeValue-minValue)*scaleFactor-graphHeight)+vertShift;
+                  vpos=(int)Math.abs((closeValue-minValue)*scaleFactor-chartHeight)+vertShift;
                   g.drawLine(horShift+i*curScaleX,vpos , horShift+i*curScaleX+barLevelWidth, vpos, barPaint);
               }
               break;
       }
 	  //    
-	  g.drawRect(0, graphHeight, this.getWidth(), this.getHeight(), black);
-	  g.drawRect(graphWidth, 0, this.getWidth(), this.getHeight(),black);      
+	  g.drawRect(0, chartHeight, this.getWidth(), this.getHeight(), black);
+	  g.drawRect(chartWidth, 0, this.getWidth(), this.getHeight(),black);      
 	  //	  
       for(int i=0;i<points.size();i++){
           x=horShift+i*curScaleX;
           if(i%(int)(MAX_SCALE/curScaleX+2)==0){
-            g.drawText(sdf.format(points.get(i).dateTime), x-50, graphHeight+PADDING/2+3, white);
-            g.drawLine(x, graphHeight, x, graphHeight+5, green);
+            g.drawText(sdf.format(points.get(i).dateTime), x-50, chartHeight+PADDING/2+3, white);
+            g.drawLine(x, chartHeight, x, chartHeight+5, green);
           }
       }   
       String strValue;
@@ -258,18 +263,42 @@ public class Chart extends SurfaceView{
             strValue=String.valueOf(maxValue-j*horTickValue);
             if(strValue.length()>7)
                 strValue=strValue.substring(0, 7);
-            g.drawText(strValue, graphWidth+(int)(0.2*PADDING), y, white);
-            g.drawLine(graphWidth, y, graphWidth+5, y, green);
+            g.drawText(strValue, chartWidth+(int)(0.2*PADDING), y, white);
+            g.drawLine(chartWidth, y, chartWidth+5, y, green);
           }          
       }
       g.drawText(Settings.instrumentCode, 20, 20, red);
-      int curValue=(int)Math.abs((qList.get(qList.size()-1).closeValue-minValue)*scaleFactor-graphHeight)+vertShift;//change  ot curent      
+      int curValue=(int)Math.abs((qList.get(qList.size()-1).closeValue-minValue)*scaleFactor-chartHeight)+vertShift;//change  ot curent      
       g.drawLine(0, curValue, this.getWidth(), curValue, red);      
-      g.drawRect(graphWidth-20, curValue, this.getWidth(), curValue+20, white);
+      g.drawRect(chartWidth-20, curValue, this.getWidth(), curValue+20, white);
       red.setStyle(Style.STROKE);
-      g.drawRect(graphWidth-20, curValue, this.getWidth(), curValue+20, red);
+      g.drawRect(chartWidth-20, curValue, this.getWidth(), curValue+20, red);
       red.setStyle(Style.FILL_AND_STROKE);
-      g.drawText(String.valueOf(qList.get(qList.size()-1).closeValue), graphWidth-15, curValue+15, red);      
+      g.drawText(String.valueOf(qList.get(qList.size()-1).closeValue), chartWidth-15, curValue+15, red);      
+    }
+    public void drawBollingerBands(Canvas g, int horShift, int vertShift, int chartHeight, double scaleFactor){    	
+        List<BollingerBands> list=(new Analiser(points)).BollingerBands(15);
+        int x1, x2, y1, y2;
+        for(int i=0;i<list.size()-1;i++){
+        	BollingerBands p1=list.get(i), p2=list.get(i+1);
+        	x1=horShift+i*curScaleX;
+        	x2=horShift+(i+1)*curScaleX;
+        	y1=(int)Math.abs((p1.getMl()-minValue)*scaleFactor-chartHeight)+vertShift;
+        	y2=(int)Math.abs((p2.getMl()-minValue)*scaleFactor-chartHeight)+vertShift;
+        	g.drawLine(x1, y1, x2, y2, green);
+        	
+        	g.drawLine(x1, (int)(y1+p1.getBl()), x2, (int)(y2+p2.getBl()), blue);
+        	g.drawLine(x1, (int)(y1+p1.getTl()), x2, (int)(y2+p2.getTl()), blue);
+        }
+    }
+    public void drawMA(Canvas g, int horShift, int vertShift, int chartHeight, double scaleFactor){    	
+        List<Integer> list=(new Analiser(points)).MA();
+        int y1,y2;
+        for(int i=0;i<list.size()-1;i++){        	
+        	y1=(int)Math.abs((list.get(i)-minValue)*scaleFactor-chartHeight)+vertShift;
+        	y2=(int)Math.abs((list.get(i+1)-minValue)*scaleFactor-chartHeight)+vertShift;
+        	g.drawLine(horShift+i*curScaleX, y1, horShift+(i+1)*curScaleX, y2, red);        	
+        }
     }
     private void prepare(int num){
         Quotation q=qList.get(curPos);
