@@ -5,6 +5,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -29,7 +32,7 @@ public class ChartSettingsActivity extends Activity {
 	private AnalyseChart.Mode analyseMode=AnalyseChart.Mode.RSI;
 	private Chart.Modes chartMode=Chart.Modes.CURVES;
 	private QuotationType bidType=QuotationType.Hour_Bid;
-	private boolean firstLoad=true;
+	private boolean firstLoad=true, bollinger, ma;
 	
 	private void loadInstruments(){
 		ArrayAdapter<CharSequence> instradapter;
@@ -56,6 +59,8 @@ public class ChartSettingsActivity extends Activity {
 		analyseMode=Settings.analyseMode;
 		bidType=Settings.bidType;
 		chartMode=Settings.chartMode;
+		bollinger=Settings.bollingerBands;
+		ma=Settings.ma;
 		
 		instrspinner = (Spinner) findViewById(R.id.SpinnerInstrument);        
 		
@@ -106,6 +111,8 @@ public class ChartSettingsActivity extends Activity {
 				Settings.chartMode=chartMode;
 				Settings.exchangeId=exchangeId;
 				Settings.analyseMode=analyseMode;
+				Settings.ma=ma;
+				Settings.bollingerBands=bollinger;
 				BaseActivity.resetOldChangeValue();
 				Settings.save();
 				stopActivity(RESULT_OK);
@@ -176,6 +183,20 @@ public class ChartSettingsActivity extends Activity {
 					bidType=QuotationType.Day_Bid;
 			}
 		});  
+        CheckBox bollingerCB=(CheckBox)findViewById(R.id.Bollinger);
+        bollingerCB.setChecked(Settings.bollingerBands);
+        bollingerCB.setOnCheckedChangeListener(new OnCheckedChangeListener() {			
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				bollinger=isChecked;
+			}
+		}); 
+        CheckBox maCB=(CheckBox)findViewById(R.id.MA);
+        maCB.setChecked(Settings.ma);
+        maCB.setOnCheckedChangeListener(new OnCheckedChangeListener() {			
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				ma=isChecked;
+			}
+		}); 
 	}
 	private void stopActivity(int result){
 		setResult(result);

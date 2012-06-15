@@ -22,7 +22,24 @@
   <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/RadioButton02" android:text="По дням"></RadioButton>
  </RadioGroup> 
  <TextView android:text="Выберите метод анализа:" android:id="@+id/TextView03" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
- <Spinner android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/AnalyseSpinner"></Spinner> 
+ <Spinner android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/AnalyseSpinner"></Spinner>
+
+ <LinearLayout
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:gravity="center_horizontal" >
+     <CheckBox
+         android:id="@+id/Bollinger"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="Bollinger bands"/>
+     <CheckBox
+         android:id="@+id/MA"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="EMA"/>
+ </LinearLayout>
+ 
 </LinearLayout>
  <LinearLayout android:orientation="horizontal" android:gravity="center_horizontal" android:background="@drawable/bottombar"  android:layout_marginTop="10dp" android:paddingTop="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
   <ImageButton android:id="@+id/SaveSettings" android:src="@drawable/ok" android:layout_marginRight="10dp" android:background="@drawable/button" android:textSize="10dp"   android:layout_width="46dp" android:layout_height="46dp"/>
