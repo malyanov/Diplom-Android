@@ -73,7 +73,7 @@ public class BaseActivity extends Activity {
     	TextView valueField=(TextView)findViewById(R.id.value);
     	TextView changeField=(TextView)findViewById(R.id.change);
     	ImageView changeDir=(ImageView)findViewById(R.id.trend);    	
-    	if(oldChangeValue<value&&oldChangeValue!=0){    		
+    	if(oldChangeValue<=value){//&&oldChangeValue!=0){    		
     		changeDir.setImageResource(R.drawable.up);
     		valueField.setBackgroundColor(Color.GREEN);
     	}
@@ -81,19 +81,19 @@ public class BaseActivity extends Activity {
     		changeDir.setImageResource(R.drawable.down);
     		valueField.setBackgroundColor(Color.RED);
     	}
-    	else{
-    		changeDir.setImageDrawable(null);
-    		valueField.setBackgroundColor(Color.GRAY);
-    	}
+//    	else{
+//    		changeDir.setImageDrawable(null);
+//    		valueField.setBackgroundColor(Color.GRAY);
+//    	}
     	valueField.setText(String.valueOf(value));
     	double changeVal=0;
     	if(oldChangeValue>0)
     		changeVal=(value-oldChangeValue)/oldChangeValue*100.0;
     	changeField.setText(new DecimalFormat("0.00").format(changeVal)+"%");
-    	if(changeVal>0)
+    	if(changeVal>=0)
     		changeField.setTextColor(Color.GREEN);
-    	else if(changeVal>0) changeField.setTextColor(Color.RED);
-    	else changeField.setTextColor(Color.GRAY);
+    	else /*if(changeVal>0)*/ changeField.setTextColor(Color.RED);
+    	//else changeField.setTextColor(Color.GRAY);
     	oldChangeValue=value;
     }
     protected void setInfo(int exchangeId, String instr){

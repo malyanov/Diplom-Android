@@ -76,7 +76,7 @@ public class Analiser {
     	List<Double> result=new ArrayList<Double>();
     	int periodsNum=4;
     	double nowPrice, prevPrice;
-        for(int i=0;i<quotes.size()-1;i++){
+        for(int i=0;i<quotes.size();i++){
             nowPrice=quotes.get(i).closeValue;
             if(i<periodsNum)
             	prevPrice=quotes.get(0).closeValue;
@@ -85,18 +85,18 @@ public class Analiser {
         }
     	return result;
     }
-    public List<Integer> MA(){//exponetial moving average
-    	List<Integer> result=new ArrayList<Integer>();
+    public List<Double> MA(){//exponetial moving average
+    	List<Double> result=new ArrayList<Double>();
     	int periodsNum=4;
         double a=2.0/(periodsNum+1.0);
         double ema, emaPrev=getAvgClose(quotes.subList(0, periodsNum)), periodAvg;
-        for(int i=1;i<quotes.size()-1;i++){
+        for(int i=0;i<quotes.size();i++){
         	if(i<periodsNum)
               periodAvg=getAvgClose(quotes.subList(0, periodsNum));
             else periodAvg=getAvgClose(quotes.subList(i-periodsNum, i));
             ema=a*periodAvg+(1.0-a)*emaPrev;
             emaPrev=ema;
-            result.add((int)Math.round(ema));
+            result.add(ema);
         }
         return result;
     }
@@ -106,7 +106,7 @@ public class Analiser {
     	double StdDev;        
         double ml, tl, bl;
         List<Quotation> values;
-        for(int i=1;i<quotes.size()-1;i++){
+        for(int i=0;i<quotes.size();i++){
         	if(i<periodsNum)
         		values=quotes.subList(0, periodsNum);
             else values=quotes.subList(i-periodsNum, i);            

@@ -292,7 +292,7 @@ public class Chart extends SurfaceView{
         }
     }
     public void drawMA(Canvas g, int horShift, int vertShift, int chartHeight, double scaleFactor){    	
-        List<Integer> list=(new Analiser(points)).MA();
+        List<Double> list=(new Analiser(points)).MA();
         int y1,y2;
         for(int i=0;i<list.size()-1;i++){        	
         	y1=(int)Math.abs((list.get(i)-minValue)*scaleFactor-chartHeight)+vertShift;
